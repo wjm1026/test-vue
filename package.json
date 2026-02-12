@@ -24,7 +24,9 @@
     "test:playwright:report": "playwright test && playwright show-report",
     "test:playwright:ui": "playwright test --ui",
     "test:playwright:coverage": "nyc --reporter=text --reporter=html playwright test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ai-testgent:build": "tsc -p tools/ai-testgent/tsconfig.json",
+    "ai-testgent": "yarn ai-testgent:build && node tools/ai-testgent/dist/main.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
