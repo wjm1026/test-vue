@@ -48,8 +48,21 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mapfile -t changed_files < <(
+            {
+              git diff --name-only
+              git diff --name-only --cached
+              git ls-files --others --exclude-standard
+            } | sort -u
+          )
 
-          git add -A -- 'tests' '__tests__' 'src/**/__tests__/**' 'tools/**/__tests__/**'
+          for file in "${changed_files[@]}"; do
+            case "$file" in
+              tests/*|__tests__/*|*/__tests__/*)
+                git add -A -- "$file"
+                ;;
+            esac
+          done
 
           if git diff --cached --quiet; then
             echo "No generated test changes to commit."
