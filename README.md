@@ -14,7 +14,7 @@ TypeScript cannot handle type information for `.vue` imports by default, so we r
 
 ## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+See [Vite Configuration Reference](https://vite.dev/config/).水电费
 
 ## Project Setup
 
