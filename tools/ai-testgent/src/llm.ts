@@ -24,7 +24,7 @@ export class LlmClient {
 
   constructor(env: NodeJS.ProcessEnv = process.env) {
     this.apiKey = env.LLM_API_KEY
-    this.baseUrl = (env.LLM_BASE_URL ?? 'https://configurations-brandon-licence-prototype.trycloudflare.com/v1').replace(/\/$/, '')
+    this.baseUrl = (env.LLM_BASE_URL ?? 'https://visit-cycle-url-electro.trycloudflare.com/v1').replace(/\/$/, '')
     this.model = env.LLM_MODEL ?? 'gemini-3-pro-high'
     this.timeoutMs = Number(env.LLM_TIMEOUT_MS ?? 60_000)
     this.enabled = Boolean(this.apiKey)
