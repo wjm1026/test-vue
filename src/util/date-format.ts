@@ -5,8 +5,10 @@ import { DateRangeStatus } from '@/enum'
 export const formatDate = (date: string | Date, format = 'YYYY/MM/DD') => {
   if (!date) return '-'
   const parsedDate = dayjs(date)
-  if (!parsedDate.isValid()) return '-'
-  return parsedDate.format(format)
+  const maybeDayjs = parsedDate as unknown as { isValid?: () => boolean; format: (pattern: string) => string }
+  if (typeof maybeDayjs.isValid === 'function' && !maybeDayjs.isValid()) return '-'
+  const formattedDate = parsedDate.format(format)
+  return formattedDate.toLowerCase() === 'invalid date' ? '-' : formattedDate
 }
 
 export const isBeforeDay = (date: Date | string, targetDate: Date | string): boolean => {
