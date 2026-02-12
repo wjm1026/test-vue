@@ -376,14 +376,36 @@ async function inferPrBaseShaFromEvent() {
  *   ❯ src/__tests__/foo.test.ts:12:5
  */
 async function collectFailingTestFiles(testRun: TestRunResult, rootDir: string): Promise<GeneratedFile[]> {
-  const output = [testRun.stdout, testRun.stderr].join('\n')
-  const testFilePathPattern = /(src\/__tests__\/\S+\.(?:test|spec)\.(?:ts|tsx|js|jsx|mjs|cjs))(?:\:\d+\:\d+)?/g
+  const output = stripAnsi([testRun.stdout, testRun.stderr].join('\n'))
   const paths = new Set<string>()
 
-  let match: RegExpExecArray | null = null
-  while ((match = testFilePathPattern.exec(output)) !== null) {
-    const filePath = match[1]
-    if (filePath) paths.add(filePath)
+  // Vitest/Jest typically print a file-level failure summary line like:
+  //   FAIL  src/__tests__/foo.test.ts [ src/__tests__/foo.test.ts ]
+  // Only capture file paths from explicit FAIL lines to avoid treating all executed
+  // test files as failures.
+  for (const rawLine of output.split('\n')) {
+    const line = rawLine.trim()
+    if (!line) continue
+
+    if (!/^(FAIL|×)\b/.test(line)) continue
+
+    const match = line.match(
+      /(src\/__tests__\/\S+\.(?:test|spec)\.(?:ts|tsx|js|jsx|mjs|cjs))(?:\:\d+\:\d+)?/,
+    )
+    if (match?.[1]) {
+      paths.add(match[1])
+    }
+  }
+
+  // Fallback: sometimes the only reference is a stack-frame line:
+  //   ❯ src/__tests__/foo.test.ts:12:5
+  if (!paths.size) {
+    const stackPattern =
+      /❯\s+(src\/__tests__\/\S+\.(?:test|spec)\.(?:ts|tsx|js|jsx|mjs|cjs))(?:\:\d+\:\d+)?/g
+    let match: RegExpExecArray | null = null
+    while ((match = stackPattern.exec(output)) !== null) {
+      if (match[1]) paths.add(match[1])
+    }
   }
 
   const files: GeneratedFile[] = []
@@ -399,6 +421,11 @@ async function collectFailingTestFiles(testRun: TestRunResult, rootDir: string):
   }
 
   return files
+}
+
+function stripAnsi(text: string) {
+  // eslint-disable-next-line no-control-regex
+  return text.replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, '')
 }
 
 async function parseCliOptions(args: string[]): Promise<CliOptions> {

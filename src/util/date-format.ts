@@ -12,7 +12,7 @@ export const formatDate = (date: string | Date, format = 'YYYY/MM/DD') => {
 }
 
 export const isBeforeDay = (date: Date | string, targetDate: Date | string): boolean => {
-  return dayjs(date).isBefore(dayjs(targetDate), 'day')
+  return dayjs(date).isBefore(dayjs(targetDate), 'day').valueOf()
 }
 
 export const addDays = (date: Date | string, days: number): Date => {
