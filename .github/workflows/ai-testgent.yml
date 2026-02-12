@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -41,6 +42,22 @@ jobs:
           else
             yarn ai-testgent --base origin/main --no-comment
           fi
+
+      - name: Commit generated tests
+        if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A -- 'tests' '__tests__' 'src/**/__tests__/**' 'tools/**/__tests__/**'
+
+          if git diff --cached --quiet; then
+            echo "No generated test changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore(ai-testgent): add generated tests for PR #${{ github.event.pull_request.number }}"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
 
       - name: Upload AI testgent report
         if: ${{ always() }}
