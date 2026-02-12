@@ -135,3 +135,11 @@ You can generate a test case for a specific file by running the following comman
 ```sh
 /mention src/[filename] unit test
 ```
+
+## AI TestGent Workflow
+
+This repository includes an AI test generation workflow at `.github/workflows/ai-testgent.yml`.
+
+- It runs automatically on pull requests (`opened`, `synchronize`, `reopened`).
+- You can also run it manually from the Actions tab with `Run workflow`.
+- Required secret: `LLM_API_KEY` in `Settings -> Secrets and variables -> Actions`.
