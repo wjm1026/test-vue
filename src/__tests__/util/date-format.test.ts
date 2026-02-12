@@ -30,11 +30,13 @@ describe('date-format utilities', () => {
     })
   })
 
-  it('determines when a date is before another date by day precision', () => {
-    // Checks edge cases and confirms day-level comparison ignores time.
-    expect(isBeforeDay('2024-01-01', '2024-01-02')).toBe(true)
-    expect(isBeforeDay(new Date('2024-01-02T23:59:59Z'), '2024-01-02')).toBe(false)
-    expect(isBeforeDay('2024-01-03', '2024-01-02')).toBe(false)
+  describe('isBeforeDay', () => {
+    it('determines when a date is before another date by day precision', () => {
+      // Checks edge cases and confirms day-level comparison ignores time.
+      expect(isBeforeDay('2024-01-01', '2024-01-02')).toBe(true)
+      expect(isBeforeDay(new Date('2024-01-02T23:59:59Z'), '2024-01-02')).toBe(false)
+      expect(isBeforeDay('2024-01-03', '2024-01-02')).toBe(false)
+    })
   })
 
   describe('formatDateRangeEnd', () => {
