@@ -32,8 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
-          LLM_MODEL: ${{ vars.LLM_MODEL }}
+          LLM_BASE_URL: ${{ vars.LLM_BASE_URL || 'https://configurations-brandon-licence-prototype.trycloudflare.com/v1' }}
+          LLM_MODEL: ${{ vars.LLM_MODEL || 'gemini-3-pro-high' }}
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             yarn ai-testgent --pr "${{ github.event.pull_request.number }}"
