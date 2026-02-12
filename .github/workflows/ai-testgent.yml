@@ -53,9 +53,9 @@ jobs:
           LLM_TIMEOUT_MS: ${{ vars.LLM_TIMEOUT_MS || '180000' }}
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            yarn ai-testgent --pr "${{ github.event.pull_request.number }}"
+            yarn ai-testgent --pr "${{ github.event.pull_request.number }}" --max-fixes 3
           else
-            yarn ai-testgent --base origin/main --no-comment
+            yarn ai-testgent --base origin/main --no-comment --max-fixes 3
           fi
 
       - name: Commit generated tests

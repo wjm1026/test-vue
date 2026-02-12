@@ -2,6 +2,23 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+// ── Log Grouping Helpers ─────────────────────────────────────────────
+
+export function logGroup(title: string) {
+  if (process.env.GITHUB_ACTIONS) {
+    console.log(`::group::${title}`)
+  } else {
+    console.log(`\n▶ ${title}`)
+  }
+}
+
+export function endLogGroup() {
+  if (process.env.GITHUB_ACTIONS) {
+    console.log('::endgroup::')
+  }
+}
+
+// ── Existing Utils ───────────────────────────────────────────────────
 export interface CommandResult {
   ok: boolean
   exitCode: number | null

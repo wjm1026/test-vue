@@ -5,9 +5,10 @@ AI 测试生成 MVP CLI（本地/CI 通用）。
 ## 功能
 
 - 根据 PR diff 或本地 git diff 收集上下文
-- 先生成 Test Plan，再生成测试代码
-- 仅允许写入 `tests/` 和 `__tests__/`
-- 运行覆盖率命令并在失败时尝试自动修复（最多 2 次）
+- 优先运行测试（覆盖率命令），若失败先记录失败用例，不立即修复
+- 检测“新增源码文件”（新页面/新路由/新功能等新增文件）并为其生成对应单测文件
+- 若测试失败，再对失败的测试文件进行自动修复（默认最多 3 次；超过则 workflow 失败）
+- 仅允许写入 `src/__tests__/`
 - 输出报告到 `output/ai-testgent-report.json` 和 `output/ai-testgent-report.md`
 
 ## 使用
