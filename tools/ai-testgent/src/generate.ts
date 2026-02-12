@@ -113,20 +113,20 @@ function deriveTestFilePath(sourcePathInput: string, index: number) {
   const sourcePath = toPosixPath(sourcePathInput).replace(/^\.\//, '')
 
   if (sourcePath && sourcePath.startsWith('src/')) {
-    // src/util/date-format.ts → src/__tests__/util/date-format.ai-generated.test.ts
-    const withoutSrc = sourcePath.slice('src/'.length) // util/date-format.ts
-    const dir = path.posix.dirname(withoutSrc) // util
+    // src/util/date-format.ts → src/__tests__/util/date-format.test.ts
+    const withoutSrc = sourcePath.slice('src/'.length)
+    const dir = path.posix.dirname(withoutSrc)
     const ext = path.posix.extname(withoutSrc)
-    const baseName = path.posix.basename(withoutSrc, ext) // date-format
+    const baseName = path.posix.basename(withoutSrc, ext)
     const subDir = dir && dir !== '.' ? `${dir}/` : ''
-    return `src/__tests__/${subDir}${baseName}.ai-generated.test.ts`
+    return `src/__tests__/${subDir}${baseName}.test.ts`
   }
 
   if (sourcePath && sourcePath.startsWith('src/__tests__/')) {
     return sourcePath
   }
 
-  return `src/__tests__/ai-generated-${String(index + 1).padStart(2, '0')}.test.ts`
+  return `src/__tests__/generated-${String(index + 1).padStart(2, '0')}.test.ts`
 }
 
 function escapeSingleQuotes(value: string) {
