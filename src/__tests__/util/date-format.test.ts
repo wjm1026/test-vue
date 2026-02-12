@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-import { formatDate, isBeforeDay, getDateRangeStatus } from '@/util/date-format'
+import { formatDate, isBeforeDay, getDateRangeStatus, formatDateRangeEnd } from '@/util/date-format'
 import { DateRangeStatus } from '@/enum'
 
 describe('date-format utilities', () => {
@@ -22,11 +22,30 @@ describe('date-format utilities', () => {
     expect(formatDate('2024-02-03', 'MM-DD')).toBe('02-03')
   })
 
+  it('returns dash when date string is invalid', () => {
+    // New requirement: invalid dates should return '-'
+    expect(formatDate('invalid-date-string')).toBe('-')
+  })
+
   it('determines when a date is before another date by day precision', () => {
     // Checks edge cases and confirms day-level comparison ignores time.
     expect(isBeforeDay('2024-01-01', '2024-01-02')).toBe(true)
     expect(isBeforeDay(new Date('2024-01-02T23:59:59Z'), '2024-01-02')).toBe(false)
     expect(isBeforeDay('2024-01-03', '2024-01-02')).toBe(false)
+  })
+
+  describe('formatDateRangeEnd', () => {
+    it('returns formatted date with separator for valid dates', () => {
+      const date = '2024-01-01'
+      const formatted = formatDate(date)
+      expect(formatDateRangeEnd(date)).toBe(` - ${formatted}`)
+    })
+
+    it('returns dash when date is invalid or empty', () => {
+      expect(formatDateRangeEnd('invalid-date')).toBe('-')
+      expect(formatDateRangeEnd('')).toBe('-')
+      expect(formatDateRangeEnd(null as unknown as string)).toBe('-')
+    })
   })
 
   describe('project status utilities', () => {
