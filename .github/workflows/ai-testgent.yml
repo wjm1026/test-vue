@@ -13,7 +13,22 @@ jobs:
   ai-testgent:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
+    # ── Skip runs triggered by the bot's own commit ──
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.user.login != 'github-actions[bot]'
+
     steps:
+      - name: Skip bot commits
+        if: github.event_name == 'pull_request'
+        run: |
+          LAST_AUTHOR=$(git log -1 --pretty=format:'%an' 2>/dev/null || echo '')
+          if [ "$LAST_AUTHOR" = "github-actions[bot]" ]; then
+            echo "Skipping: last commit was from bot."
+            exit 0
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -48,20 +63,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Only add files under src/__tests__/ (project convention)
           mapfile -t changed_files < <(
             {
               git diff --name-only
               git diff --name-only --cached
               git ls-files --others --exclude-standard
-            } | sort -u
+            } | sort -u | grep '^src/__tests__/'
           )
 
+          if [ ${#changed_files[@]} -eq 0 ]; then
+            echo "No generated test changes to commit."
+            exit 0
+          fi
+
           for file in "${changed_files[@]}"; do
-            case "$file" in
-              tests/*|__tests__/*|*/__tests__/*)
-                git add -A -- "$file"
-                ;;
-            esac
+            git add -A -- "$file"
           done
 
           if git diff --cached --quiet; then
@@ -70,7 +88,7 @@ jobs:
           fi
 
           # Skip local git hooks (husky) in CI. We already run tests as part of ai-testgent.
-          git commit --no-verify -m "chore(ai-testgent): add generated tests for PR #${{ github.event.pull_request.number }}"
+          git commit --no-verify -m "chore(ai-testgent): add generated tests for PR #${{ github.event.pull_request.number }} [skip ci]"
           git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
 
       - name: Upload AI testgent report

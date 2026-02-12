@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import { LlmClient } from './llm.js'
 import type { GeneratedFile, GenerationResult, TestPlan, ToolContext } from './types.js'
-import { isWritableTestPath, toPosixPath, uniqBy } from './utils.js'
+import { isTestFilePath, isWritableTestPath, toPosixPath, uniqBy } from './utils.js'
 
 interface GeneratePromptResponse {
   files?: Array<Partial<GeneratedFile>>
@@ -24,7 +24,7 @@ export async function generateTestFiles(
   })
 
   if (llmGeneration?.files?.length) {
-    const validated = normalizeGeneratedFiles(llmGeneration.files)
+    const validated = await filterExistingTests(normalizeGeneratedFiles(llmGeneration.files))
     if (validated.length) {
       return {
         files: validated,
@@ -33,8 +33,9 @@ export async function generateTestFiles(
     }
   }
 
+  const heuristicFiles = await filterExistingTests(createHeuristicFiles(context, plan))
   return {
-    files: createHeuristicFiles(context, plan),
+    files: heuristicFiles,
     source: 'heuristic',
   }
 }
@@ -49,6 +50,20 @@ function normalizeGeneratedFiles(files: Array<Partial<GeneratedFile>>) {
     .filter((file) => isWritableTestPath(file.path))
 
   return uniqBy(normalized, (file) => file.path)
+}
+
+/** Check if a test file already exists on disk — if so, skip to avoid overwriting. */
+async function filterExistingTests(files: GeneratedFile[]): Promise<GeneratedFile[]> {
+  const result: GeneratedFile[] = []
+  for (const file of files) {
+    try {
+      await fs.access(path.resolve(process.cwd(), file.path))
+      console.log(`[ai-testgent] Skipping ${file.path} — test file already exists.`)
+    } catch {
+      result.push(file)
+    }
+  }
+  return result
 }
 
 function createHeuristicFiles(context: ToolContext, plan: TestPlan) {

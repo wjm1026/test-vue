@@ -51,7 +51,7 @@ export async function buildContext(options: BuildContextOptions = {}): Promise<T
     configs: {
       scripts,
       coverageCommand,
-      testDirConvention: 'src/**/__tests__/*.test.ts or tests/**/*.test.ts',
+      testDirConvention: 'src/__tests__/**/*.test.ts (mirroring src/ structure)',
     },
   }
 }

@@ -9,8 +9,8 @@ import { MAX_CHANGED_FILES } from './limits.js'
 import { LlmClient } from './llm.js'
 import { createTestPlan } from './plan.js'
 import { createFinalReport, renderMarkdownReport, writeReportArtifacts } from './reporter.js'
-import { createSkippedRun, runTests } from './run-tests.js'
-import type { GeneratedFile } from './types.js'
+import { createSkippedRun, findUncoveredFiles, runTests } from './run-tests.js'
+import type { GeneratedFile, TestRunResult } from './types.js'
 import { parseJsonSafe } from './utils.js'
 import { writeGeneratedFiles } from './write-files.js'
 
@@ -37,85 +37,159 @@ async function main() {
   })
 
   if (!context.changedFiles.length) {
-    console.log('[ai-testgent] No changed files found. Nothing to generate.')
+    console.log('[ai-testgent] No changed files found. Nothing to do.')
     return
   }
 
   console.log(`[ai-testgent] Changed files: ${context.changedFiles.length}`)
 
-  const plan = await createTestPlan(context, llm, promptsDir)
-  console.log(`[ai-testgent] Generated plan with ${plan.testCases.length} cases (${plan.source})`)
+  // ── Step 1: Run existing tests with coverage ──────────────────────
+  console.log('\n[ai-testgent] ▶ Step 1: Running existing tests with coverage...')
 
-  const generation = await generateTestFiles(context, plan, llm, promptsDir)
-  let currentFiles = generation.files
-
-  if (!currentFiles.length) {
-    console.log('[ai-testgent] No test files generated. Exiting.')
-    return
-  }
-
-  const written = await writeGeneratedFiles(currentFiles, {
-    rootDir,
-    dryRun: options.dryRun,
-  })
-
-  const uniqueWrittenPaths = [...written]
-
-  if (options.dryRun) {
-    console.log('[ai-testgent] Dry run enabled. Files were validated but not written.')
-  } else {
-    console.log(`[ai-testgent] Wrote ${written.length} file(s)`)
-  }
+  let testRun = options.skipTests || options.dryRun
+    ? createSkippedRun(context.configs.coverageCommand)
+    : await runTests(context)
 
   let attempts = 0
-  let testRun = options.skipTests || options.dryRun ? createSkippedRun(context.configs.coverageCommand) : await runTests(context)
+  const uniqueWrittenPaths: string[] = []
+  let currentFiles: GeneratedFile[] = []
 
-  while (!testRun.ok && attempts < options.maxFixes) {
-    attempts += 1
-    console.log(`[ai-testgent] Test run failed. Attempting fix ${attempts}/${options.maxFixes}`)
+  // ── Step 2: If tests fail, try to fix ─────────────────────────────
+  if (!testRun.ok && !options.skipTests && !options.dryRun) {
+    console.log('\n[ai-testgent] ▶ Step 2: Existing tests failed. Attempting to fix...')
 
-    const fixResult = await generateFixes(
-      {
-        context,
-        plan,
-        testRun,
-        files: currentFiles,
-      },
-      llm,
-      promptsDir,
-    )
-
-    if (!fixResult.files.length) {
-      console.log('[ai-testgent] No fix patch generated. Stop retry loop.')
-      break
+    // Collect existing failing test files from disk so the fix prompt can see them
+    const failingTestFiles = await collectFailingTestFiles(testRun, rootDir)
+    if (failingTestFiles.length) {
+      console.log(`[ai-testgent] Found ${failingTestFiles.length} failing test file(s) to fix.`)
+      currentFiles = failingTestFiles
     }
 
-    currentFiles = mergeGeneratedFiles(currentFiles, fixResult.files)
-    const fixedPaths = await writeGeneratedFiles(fixResult.files, {
-      rootDir,
-      dryRun: options.dryRun,
-    })
+    const fixPlan = await createTestPlan(context, llm, promptsDir)
 
-    for (const fixedPath of fixedPaths) {
-      if (!uniqueWrittenPaths.includes(fixedPath)) {
-        uniqueWrittenPaths.push(fixedPath)
+    while (!testRun.ok && attempts < options.maxFixes) {
+      attempts += 1
+      console.log(`[ai-testgent] Fix attempt ${attempts}/${options.maxFixes}`)
+
+      const fixResult = await generateFixes(
+        {
+          context,
+          plan: fixPlan,
+          testRun,
+          files: currentFiles,
+        },
+        llm,
+        promptsDir,
+      )
+
+      if (!fixResult.files.length) {
+        console.log('[ai-testgent] No fix patch generated. Stopping fix loop.')
+        break
       }
+
+      currentFiles = mergeGeneratedFiles(currentFiles, fixResult.files)
+      const fixedPaths = await writeGeneratedFiles(fixResult.files, {
+        rootDir,
+        dryRun: options.dryRun,
+      })
+
+      for (const p of fixedPaths) {
+        if (!uniqueWrittenPaths.includes(p)) uniqueWrittenPaths.push(p)
+      }
+
+      testRun = await runTests(context)
     }
 
-    if (options.skipTests || options.dryRun) {
-      break
+    if (testRun.ok) {
+      console.log('[ai-testgent] ✅ Existing tests fixed successfully.')
+    } else {
+      console.log('[ai-testgent] ⚠ Could not fix all test failures.')
     }
-
-    testRun = await runTests(context)
+  } else if (testRun.ok) {
+    console.log('[ai-testgent] ✅ All existing tests pass.')
   }
 
+  // ── Step 3: Find uncovered changed files ──────────────────────────
+  console.log('\n[ai-testgent] ▶ Step 3: Checking coverage for changed files...')
+
+  const uncoveredFiles = options.skipTests || options.dryRun
+    ? context.changedFiles
+    : await findUncoveredFiles(context.changedFiles)
+
+  if (!uncoveredFiles.length) {
+    console.log('[ai-testgent] All changed files are already covered. No new tests needed. 🎉')
+  } else {
+    console.log(`[ai-testgent] ${uncoveredFiles.length} file(s) need test coverage.`)
+
+    // ── Step 4: Generate tests only for uncovered files ────────────
+    console.log('\n[ai-testgent] ▶ Step 4: Generating tests for uncovered files...')
+
+    // Build a focused context with only uncovered files
+    const uncoveredContext = { ...context, changedFiles: uncoveredFiles }
+
+    const plan = await createTestPlan(uncoveredContext, llm, promptsDir)
+    console.log(`[ai-testgent] Test plan: ${plan.testCases.length} cases (${plan.source})`)
+
+    const generation = await generateTestFiles(uncoveredContext, plan, llm, promptsDir)
+
+    if (generation.files.length) {
+      currentFiles = mergeGeneratedFiles(currentFiles, generation.files)
+      const written = await writeGeneratedFiles(generation.files, {
+        rootDir,
+        dryRun: options.dryRun,
+      })
+
+      for (const p of written) {
+        if (!uniqueWrittenPaths.includes(p)) uniqueWrittenPaths.push(p)
+      }
+
+      if (options.dryRun) {
+        console.log(`[ai-testgent] Dry run: ${written.length} file(s) validated but not written.`)
+      } else {
+        console.log(`[ai-testgent] Wrote ${written.length} new test file(s).`)
+      }
+
+      // ── Step 5: Run tests again to validate ───────────────────
+      if (!options.skipTests && !options.dryRun) {
+        console.log('\n[ai-testgent] ▶ Step 5: Running tests again to validate new tests...')
+        testRun = await runTests(context)
+
+        // Try to fix newly generated tests if they fail
+        let genFixAttempts = 0
+        while (!testRun.ok && genFixAttempts < options.maxFixes) {
+          genFixAttempts += 1
+          attempts += 1
+          console.log(`[ai-testgent] New test fix attempt ${genFixAttempts}/${options.maxFixes}`)
+
+          const fixPlan = await createTestPlan(uncoveredContext, llm, promptsDir)
+          const fixResult = await generateFixes(
+            { context: uncoveredContext, plan: fixPlan, testRun, files: currentFiles },
+            llm,
+            promptsDir,
+          )
+
+          if (!fixResult.files.length) break
+
+          currentFiles = mergeGeneratedFiles(currentFiles, fixResult.files)
+          const fixedPaths = await writeGeneratedFiles(fixResult.files, { rootDir, dryRun: options.dryRun })
+          for (const p of fixedPaths) {
+            if (!uniqueWrittenPaths.includes(p)) uniqueWrittenPaths.push(p)
+          }
+
+          testRun = await runTests(context)
+        }
+      }
+    } else {
+      console.log('[ai-testgent] No new test files generated.')
+    }
+  }
+
+  // ── Report ────────────────────────────────────────────────────────
+  const plan = await createTestPlan(context, llm, promptsDir)
   const finalReport = createFinalReport(
     context,
     plan,
-    {
-      source: generation.source,
-      files: currentFiles,
-    },
+    { source: currentFiles.length ? 'llm' : 'heuristic', files: currentFiles },
     testRun,
     uniqueWrittenPaths,
     attempts,
@@ -124,7 +198,7 @@ async function main() {
   const markdown = renderMarkdownReport(finalReport)
   const artifacts = await writeReportArtifacts(rootDir, finalReport, markdown)
 
-  console.log(`[ai-testgent] Report JSON: ${artifacts.jsonPath}`)
+  console.log(`\n[ai-testgent] Report JSON: ${artifacts.jsonPath}`)
   console.log(`[ai-testgent] Report Markdown: ${artifacts.markdownPath}`)
 
   if (context.pr && context.repo && process.env.GITHUB_TOKEN && !options.noComment) {
@@ -154,6 +228,41 @@ function mergeGeneratedFiles(base: GeneratedFile[], updates: GeneratedFile[]) {
   }
 
   return Array.from(map.values())
+}
+
+/**
+ * Parse test runner output to find failing test file paths,
+ * then read their content from disk so the fix prompt can see them.
+ *
+ * Supports vitest / jest output formats:
+ *   FAIL  src/__tests__/util/date-format.test.ts
+ *   ❯ src/__tests__/foo.test.ts:12:5
+ */
+async function collectFailingTestFiles(testRun: TestRunResult, rootDir: string): Promise<GeneratedFile[]> {
+  const output = [testRun.stdout, testRun.stderr].join('\n')
+  const testFilePathPattern = /(?:FAIL|❯|×)\s+(src\/__tests__\/\S+\.test\.ts)/g
+  const paths = new Set<string>()
+
+  let match: RegExpExecArray | null = null
+  while ((match = testFilePathPattern.exec(output)) !== null) {
+    // Strip trailing :line:col if present
+    const filePath = match[1].replace(/:\d+:\d+$/, '')
+    paths.add(filePath)
+  }
+
+  const files: GeneratedFile[] = []
+
+  for (const relPath of paths) {
+    try {
+      const absPath = path.resolve(rootDir, relPath)
+      const content = await fs.readFile(absPath, 'utf8')
+      files.push({ path: relPath, content })
+    } catch {
+      // File not found — skip
+    }
+  }
+
+  return files
 }
 
 async function parseCliOptions(args: string[]): Promise<CliOptions> {
