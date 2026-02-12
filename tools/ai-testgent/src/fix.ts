@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import { LlmClient } from './llm.js'
 import type { FixResult, GeneratedFile, TestPlan, TestRunResult, ToolContext } from './types.js'
-import { isWritableTestPath, toPosixPath, uniqBy } from './utils.js'
+import { isWritableTestPath, toPosixPath, truncateByLines, uniqBy } from './utils.js'
 
 interface FixPromptResponse {
   files?: Array<Partial<GeneratedFile>>
@@ -30,17 +30,18 @@ export async function generateFixes(
 
   const promptPath = path.join(promptsDir, 'fix.md')
   const prompt = await fs.readFile(promptPath, 'utf8')
+  const compactInput = buildCompactFixInput(input)
 
   const llmResponse = await llm.requestJson<FixPromptResponse>(prompt, {
-    context: input.context,
-    plan: input.plan,
+    context: compactInput.context,
+    plan: compactInput.plan,
     failedRun: {
-      command: input.testRun.command,
-      exitCode: input.testRun.exitCode,
-      stderr: input.testRun.stderr,
-      stdout: input.testRun.stdout,
+      command: compactInput.testRun.command,
+      exitCode: compactInput.testRun.exitCode,
+      stderr: compactInput.testRun.stderr,
+      stdout: compactInput.testRun.stdout,
     },
-    files: input.files,
+    files: compactInput.files,
   })
 
   if (!llmResponse?.files?.length) {
@@ -64,5 +65,36 @@ export async function generateFixes(
   return {
     files: validated,
     source: 'llm',
+  }
+}
+
+function buildCompactFixInput(input: GenerateFixesInput) {
+  return {
+    context: {
+      ...input.context,
+      changedFiles: input.context.changedFiles.slice(0, 12).map((file) => ({
+        path: file.path,
+        diffPatch: truncateByLines(file.diffPatch, 120),
+        snippet: truncateByLines(file.snippet, 120),
+        fullContent: file.fullContent ? truncateByLines(file.fullContent, 180) : undefined,
+      })),
+      testExamples: input.context.testExamples.slice(0, 3).map((example) => ({
+        path: example.path,
+        content: truncateByLines(example.content, 120),
+      })),
+    } as ToolContext,
+    plan: {
+      ...input.plan,
+      testCases: input.plan.testCases.slice(0, 20),
+    } as TestPlan,
+    testRun: {
+      ...input.testRun,
+      stdout: truncateByLines(input.testRun.stdout, 200),
+      stderr: truncateByLines(input.testRun.stderr, 200),
+    } as TestRunResult,
+    files: input.files.slice(0, 10).map((file) => ({
+      path: file.path,
+      content: truncateByLines(file.content, 220),
+    })),
   }
 }
