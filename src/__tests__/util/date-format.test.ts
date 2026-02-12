@@ -4,27 +4,30 @@ import { formatDate, isBeforeDay, getDateRangeStatus, formatDateRangeEnd } from 
 import { DateRangeStatus } from '@/enum'
 
 describe('date-format utilities', () => {
-  it('returns dash placeholder when date input is empty', () => {
-    // Ensures falsy values fall back to "-".
-    expect(formatDate('')).toBe('-')
-    expect(formatDate(null as unknown as string)).toBe('-')
-    expect(formatDate(undefined as unknown as string)).toBe('-')
-  })
+  describe('formatDate', () => {
+    it('returns dash placeholder when date input is empty', () => {
+      // Ensures falsy values fall back to "-".
+      expect(formatDate('')).toBe('-')
+      expect(formatDate(null as unknown as string)).toBe('-')
+      expect(formatDate(undefined as unknown as string)).toBe('-')
+    })
 
-  it('formats provided date strings and Date instances with default pattern', () => {
-    // Validates string inputs and Date objects produce YYYY-MM-DD or YYYY/MM/DD.
-    expect(formatDate('2024-05-20')).toMatch(/2024[\/-]05[\/-]20/)
-    expect(formatDate(new Date('2024-12-31T15:00:00Z'))).toBe(formatDate('2024-12-31T15:00:00Z'))
-  })
+    it('formats provided date strings and Date instances with default pattern', () => {
+      // Validates string inputs and Date objects produce YYYY-MM-DD or YYYY/MM/DD.
+      expect(formatDate('2024-05-20')).toMatch(/2024[\/-]05[\/-]20/)
+      expect(formatDate(new Date('2024-12-31T15:00:00Z'))).toBe(formatDate('2024-12-31T15:00:00Z'))
+    })
 
-  it('accepts custom format tokens', () => {
-    // Confirms custom format strings are forwarded to dayjs.
-    expect(formatDate('2024-02-03', 'MM-DD')).toBe('02-03')
-  })
+    it('accepts custom format tokens', () => {
+      // Confirms custom format strings are forwarded to dayjs.
+      expect(formatDate('2024-02-03', 'MM-DD')).toBe('02-03')
+    })
 
-  it('returns dash when date string is invalid', () => {
-    // New requirement: invalid dates should return '-'
-    expect(formatDate('invalid-date-string')).toBe('-')
+    it('returns dash when date string or Date object is invalid', () => {
+      // TC-001: formatDate returns dash for invalid date strings and invalid Date objects
+      expect(formatDate('invalid-date-string')).toBe('-')
+      expect(formatDate(new Date('invalid'))).toBe('-')
+    })
   })
 
   it('determines when a date is before another date by day precision', () => {
@@ -36,13 +39,20 @@ describe('date-format utilities', () => {
 
   describe('formatDateRangeEnd', () => {
     it('returns formatted date with separator for valid dates', () => {
-      const date = '2024-01-01'
-      const formatted = formatDate(date)
-      expect(formatDateRangeEnd(date)).toBe(` - ${formatted}`)
+      // TC-002: formatDateRangeEnd formats valid date strings and Date objects with separator
+      const dateStr = '2024-01-01'
+      const formattedStr = formatDate(dateStr)
+      expect(formatDateRangeEnd(dateStr)).toBe(` - ${formattedStr}`)
+
+      const dateObj = new Date('2024-02-01')
+      const formattedObj = formatDate(dateObj)
+      expect(formatDateRangeEnd(dateObj)).toBe(` - ${formattedObj}`)
     })
 
     it('returns dash when date is invalid or empty', () => {
+      // TC-003: formatDateRangeEnd returns dash for invalid, empty, or null inputs
       expect(formatDateRangeEnd('invalid-date')).toBe('-')
+      expect(formatDateRangeEnd(new Date('invalid'))).toBe('-')
       expect(formatDateRangeEnd('')).toBe('-')
       expect(formatDateRangeEnd(null as unknown as string)).toBe('-')
     })
