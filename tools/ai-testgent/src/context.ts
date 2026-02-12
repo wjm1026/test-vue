@@ -2,8 +2,18 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 
 import { listPullRequestFiles } from './github.js'
+import {
+  FILE_DIFF_PATCH_LINES,
+  FILE_FULL_CONTENT_LINES,
+  FILE_SNIPPET_LINES,
+  MAX_CHANGED_FILES,
+  MAX_TEST_EXAMPLES,
+  SNIPPET_HUNK_PADDING,
+  TEST_EXAMPLE_CONTENT_LINES,
+} from './limits.js'
 import type { ChangedFileContext, TestExample, TestFramework, ToolContext } from './types.js'
 import {
+  isAnalysableSourceFile,
   isTestFilePath,
   parseJsonSafe,
   readTextFileIfExists,
@@ -19,8 +29,8 @@ interface BuildContextOptions {
   maxChangedFiles?: number
 }
 
-const DEFAULT_MAX_CHANGED_FILES = 20
-const DEFAULT_TEST_EXAMPLES = 3
+const DEFAULT_MAX_CHANGED_FILES = MAX_CHANGED_FILES
+const DEFAULT_TEST_EXAMPLES = MAX_TEST_EXAMPLES
 
 export async function buildContext(options: BuildContextOptions = {}): Promise<ToolContext> {
   const scripts = await readPackageScripts()
@@ -54,7 +64,21 @@ async function collectChangedFiles(options: BuildContextOptions) {
   if (token && repo && typeof options.pr === 'number') {
     try {
       const prFiles = await listPullRequestFiles(token, repo, options.pr)
-      const selected = prFiles.slice(0, maxChangedFiles)
+
+      // Only analyse source files under src/ (.vue, .ts, .tsx) and test files
+      const analysable = prFiles.filter((file) => isAnalysableSourceFile(file.path))
+      const skippedCount = prFiles.length - analysable.length
+      if (skippedCount > 0) {
+        console.log(`[ai-testgent] Skipped ${skippedCount} non-source file(s) (not src/**/*.{vue,ts,tsx}).`)
+      }
+
+      if (analysable.length > maxChangedFiles) {
+        console.warn(`[ai-testgent] ⚠ ${analysable.length} analysable files found, only the top ${maxChangedFiles} (by diff size) will be analysed.`)
+      }
+
+      // Sort by patch size descending so the most-changed files get priority
+      const sorted = [...analysable].sort((a, b) => (b.patch?.length ?? 0) - (a.patch?.length ?? 0))
+      const selected = sorted.slice(0, maxChangedFiles)
       const contexts = await Promise.all(
         selected.map((file) => buildChangedFileContext(file.path, file.patch, `pr-${options.pr}`)),
       )
@@ -68,11 +92,23 @@ async function collectChangedFiles(options: BuildContextOptions) {
 
   const baseRef = await resolveBaseRef(options.baseRef)
   const nameDiff = await runCommand('git', ['diff', '--name-only', `${baseRef}...HEAD`])
-  const names = nameDiff.stdout
+  const allNames = nameDiff.stdout
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean)
-    .slice(0, maxChangedFiles)
+
+  // Only analyse source files under src/ (.vue, .ts, .tsx) and test files
+  const analysable = allNames.filter((name) => isAnalysableSourceFile(name))
+  const skippedCount = allNames.length - analysable.length
+  if (skippedCount > 0) {
+    console.log(`[ai-testgent] Skipped ${skippedCount} non-source file(s) (not src/**/*.{vue,ts,tsx}).`)
+  }
+
+  if (analysable.length > maxChangedFiles) {
+    console.warn(`[ai-testgent] ⚠ ${analysable.length} analysable files found, only the first ${maxChangedFiles} will be analysed.`)
+  }
+
+  const names = analysable.slice(0, maxChangedFiles)
 
   if (!names.length) {
     return []
@@ -94,29 +130,42 @@ async function buildChangedFileContext(filePath: string, patch: string, source: 
   const absolutePath = path.resolve(process.cwd(), normalized)
   const fullContent = await readTextFileIfExists(absolutePath)
 
+  const patchText = patch || `/* no diff patch from ${source} */`
+  const patchLineCount = patchText.split('\n').length
+  if (patchLineCount > FILE_DIFF_PATCH_LINES) {
+    console.warn(`[ai-testgent] ⚠ ${normalized}: diffPatch truncated from ${patchLineCount} to ${FILE_DIFF_PATCH_LINES} lines.`)
+  }
+
+  if (fullContent) {
+    const fullLineCount = fullContent.split('\n').length
+    if (fullLineCount > FILE_FULL_CONTENT_LINES) {
+      console.warn(`[ai-testgent] ⚠ ${normalized}: fullContent truncated from ${fullLineCount} to ${FILE_FULL_CONTENT_LINES} lines.`)
+    }
+  }
+
   return {
     path: normalized,
-    diffPatch: truncateByLines(patch || `/* no diff patch from ${source} */`, 220),
+    diffPatch: truncateByLines(patchText, FILE_DIFF_PATCH_LINES),
     snippet: buildSnippet(patch, fullContent),
-    fullContent: fullContent ? truncateByLines(fullContent, 800) : undefined,
+    fullContent: fullContent ? truncateByLines(fullContent, FILE_FULL_CONTENT_LINES) : undefined,
   }
 }
 
 function buildSnippet(patch: string, fullContent?: string) {
   if (!fullContent) {
-    return truncateByLines(patch, 240)
+    return truncateByLines(patch, FILE_SNIPPET_LINES)
   }
 
   const ranges = extractPatchLineRanges(patch)
   if (!ranges.length) {
-    return truncateByLines(fullContent, 260)
+    return truncateByLines(fullContent, FILE_SNIPPET_LINES)
   }
 
   const lines = fullContent.split('\n')
   const merged = mergeRanges(
     ranges.map((range) => {
-      const start = Math.max(1, range.start - 20)
-      const end = Math.min(lines.length, range.start + range.count + 20)
+      const start = Math.max(1, range.start - SNIPPET_HUNK_PADDING)
+      const end = Math.min(lines.length, range.start + range.count + SNIPPET_HUNK_PADDING)
       return { start, end }
     }),
   )
@@ -125,7 +174,7 @@ function buildSnippet(patch: string, fullContent?: string) {
     .map((range) => lines.slice(range.start - 1, range.end).join('\n'))
     .join('\n\n')
 
-  return truncateByLines(snippet, 260)
+  return truncateByLines(snippet, FILE_SNIPPET_LINES)
 }
 
 function extractPatchLineRanges(patch: string) {
@@ -258,7 +307,7 @@ async function collectTestExamples(changedPaths: string[], maxExamples: number) 
 
     examples.push({
       path: selectedPath,
-      content: truncateByLines(content, 260),
+      content: truncateByLines(content, TEST_EXAMPLE_CONTENT_LINES),
     })
   }
 

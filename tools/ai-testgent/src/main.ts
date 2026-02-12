@@ -5,6 +5,7 @@ import { buildContext } from './context.js'
 import { generateFixes } from './fix.js'
 import { generateTestFiles } from './generate.js'
 import { createPullRequestComment } from './github.js'
+import { MAX_CHANGED_FILES } from './limits.js'
 import { LlmClient } from './llm.js'
 import { createTestPlan } from './plan.js'
 import { createFinalReport, renderMarkdownReport, writeReportArtifacts } from './reporter.js'
@@ -163,7 +164,7 @@ async function parseCliOptions(args: string[]): Promise<CliOptions> {
     skipTests: false,
     noComment: false,
     maxFixes: 2,
-    maxChangedFiles: 20,
+    maxChangedFiles: MAX_CHANGED_FILES,
   }
 
   for (let index = 0; index < args.length; index += 1) {
@@ -268,7 +269,7 @@ Options:
   --pr <number>       Pull request number (optional in GitHub Actions)
   --base <ref>        Base git ref for local diff (default: auto detect)
   --max-fixes <n>     Max auto-fix attempts after failed test run (default: 2)
-  --max-files <n>     Max changed files to inspect (default: 20)
+  --max-files <n>     Max changed files to inspect (default: ${MAX_CHANGED_FILES})
   --dry-run           Validate generation only, do not write files
   --skip-tests        Skip running test command
   --no-comment        Do not write back PR comment
