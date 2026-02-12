@@ -98,17 +98,20 @@ function deriveTestFilePath(sourcePathInput: string, index: number) {
   const sourcePath = toPosixPath(sourcePathInput).replace(/^\.\//, '')
 
   if (sourcePath && sourcePath.startsWith('src/')) {
-    const dir = path.posix.dirname(sourcePath)
-    const ext = path.posix.extname(sourcePath)
-    const baseName = path.posix.basename(sourcePath, ext)
-    return `${dir}/__tests__/${baseName}.ai-generated.test.ts`
+    // src/util/date-format.ts → src/__tests__/util/date-format.ai-generated.test.ts
+    const withoutSrc = sourcePath.slice('src/'.length) // util/date-format.ts
+    const dir = path.posix.dirname(withoutSrc) // util
+    const ext = path.posix.extname(withoutSrc)
+    const baseName = path.posix.basename(withoutSrc, ext) // date-format
+    const subDir = dir && dir !== '.' ? `${dir}/` : ''
+    return `src/__tests__/${subDir}${baseName}.ai-generated.test.ts`
   }
 
-  if (sourcePath && sourcePath.startsWith('tests/')) {
+  if (sourcePath && sourcePath.startsWith('src/__tests__/')) {
     return sourcePath
   }
 
-  return `tests/ai-generated-${String(index + 1).padStart(2, '0')}.test.ts`
+  return `src/__tests__/ai-generated-${String(index + 1).padStart(2, '0')}.test.ts`
 }
 
 function escapeSingleQuotes(value: string) {

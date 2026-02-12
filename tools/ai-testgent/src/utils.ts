@@ -153,13 +153,14 @@ export function isAnalysableSourceFile(filePath: string) {
   return /\.(vue|ts|tsx)$/.test(normalized)
 }
 
+/**
+ * Check if a file path is a valid writable test path.
+ * Only `src/__tests__/` is allowed — this enforces the project convention
+ * of a single, centralised test directory that mirrors the source structure.
+ */
 export function isWritableTestPath(filePath: string) {
   const normalized = toPosixPath(filePath).replace(/^\.\//, '')
-  return (
-    normalized.startsWith('tests/') ||
-    normalized.startsWith('__tests__/') ||
-    normalized.includes('/__tests__/')
-  )
+  return normalized.startsWith('src/__tests__/')
 }
 
 export function resolveSafeWritePath(rootDir: string, filePath: string) {
