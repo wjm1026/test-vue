@@ -169,7 +169,12 @@ async function main() {
       )
 
       if (!fixResult.files.length) {
-        console.log('[ai-testgent] No fix patch generated. Stopping fix loop.')
+        console.log('[ai-testgent] No fix patch generated.')
+        if (attempts < options.maxFixes) {
+          // The failure may be transient (LLM/network). Preserve remaining retries.
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          continue
+        }
         break
       }
 

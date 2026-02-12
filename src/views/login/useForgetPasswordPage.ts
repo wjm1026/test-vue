@@ -6,7 +6,7 @@ export const useForgetPasswordPage = () => {
 
   const emailSubmitSuccess = (email: string) => {
     savedEmail.value = email
-    activeStep.value = 1
+    activeStep.value = 13
   }
 
   return { activeStep, emailSubmitSuccess, savedEmail }
