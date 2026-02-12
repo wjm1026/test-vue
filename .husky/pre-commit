@@ -1,0 +1,3 @@
+yarn type-check
+yarn test:vitest:coverage
+yarn lint-staged

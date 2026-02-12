@@ -1,0 +1,728 @@
+{
+  "project_info": {
+    "project_id": 1001,
+    "project_name": "新商品調査2025",
+    "start_date": "2025-10-01",
+    "end_date": "2025-10-31",
+    "method": "Webアンケート",
+    "review_target_start": "2025-09-01",
+    "review_target_end": "2025-10-31",
+    "product_name": "サンプルドリンク",
+    "maker": "サンプル株式会社",
+    "description": "新発売の健康志向飲料です。",
+    "image_url": "https://example.com/images/product_1001.jpg",
+    "updated_date": "2025-11-04"
+  },
+  "quantitative_evaluation": {
+    "aggregation_data": {
+      "overall": {
+        "aggregation_name": "全体",
+        "review_count": 500,
+        "good_ratio": 80,
+        "bad_ratio": 20,
+        "good_review_count": 400,
+        "bad_review_count": 100
+      },
+      "male": {
+        "aggregation_name": "男性",
+        "review_count": 250,
+        "good_ratio": 78,
+        "bad_ratio": 22
+      },
+      "female": {
+        "aggregation_name": "女性",
+        "review_count": 240,
+        "good_ratio": 82,
+        "bad_ratio": 18
+      },
+      "other": {
+        "aggregation_name": "その他",
+        "review_count": 10,
+        "good_ratio": 70,
+        "bad_ratio": 30
+      },
+      "age_teens": {
+        "aggregation_name": "～10代",
+        "review_count": 30,
+        "good_ratio": 85,
+        "bad_ratio": 15
+      },
+      "age_20s": {
+        "aggregation_name": "20代",
+        "review_count": 100,
+        "good_ratio": 80,
+        "bad_ratio": 20
+      },
+      "age_30s": {
+        "aggregation_name": "30代",
+        "review_count": 120,
+        "good_ratio": 78,
+        "bad_ratio": 22
+      },
+      "age_40s": {
+        "aggregation_name": "40代",
+        "review_count": 90,
+        "good_ratio": 75,
+        "bad_ratio": 25
+      },
+      "age_50s": {
+        "aggregation_name": "50代",
+        "review_count": 70,
+        "good_ratio": 80,
+        "bad_ratio": 20
+      },
+      "age_60s": {
+        "aggregation_name": "60代",
+        "review_count": 50,
+        "good_ratio": 82,
+        "bad_ratio": 18
+      },
+      "age_70s": {
+        "aggregation_name": "70代",
+        "review_count": 30,
+        "good_ratio": 85,
+        "bad_ratio": 15
+      },
+      "age_80s_plus": {
+        "aggregation_name": "80代～",
+        "review_count": 10,
+        "good_ratio": 90,
+        "bad_ratio": 10
+      },
+      "male_teens": {
+        "aggregation_name": "男性・～10代",
+        "review_count": 15,
+        "good_ratio": 83,
+        "bad_ratio": 17
+      },
+      "male_20s": {
+        "aggregation_name": "男性・20代",
+        "review_count": 40,
+        "good_ratio": 77,
+        "bad_ratio": 23
+      },
+      "male_30s": {
+        "aggregation_name": "男性・30代",
+        "review_count": 50,
+        "good_ratio": 75,
+        "bad_ratio": 25
+      },
+      "male_40s": {
+        "aggregation_name": "男性・40代",
+        "review_count": 35,
+        "good_ratio": 72,
+        "bad_ratio": 28
+      },
+      "male_50s": {
+        "aggregation_name": "男性・50代",
+        "review_count": 30,
+        "good_ratio": 78,
+        "bad_ratio": 22
+      },
+      "male_60s": {
+        "aggregation_name": "男性・60代",
+        "review_count": 20,
+        "good_ratio": 80,
+        "bad_ratio": 20
+      },
+      "male_70s": {
+        "aggregation_name": "男性・70代",
+        "review_count": 10,
+        "good_ratio": 85,
+        "bad_ratio": 15
+      },
+      "male_80s_plus": {
+        "aggregation_name": "男性・80代～",
+        "review_count": 5,
+        "good_ratio": 90,
+        "bad_ratio": 10
+      },
+      "female_teens": {
+        "aggregation_name": "女性・～10代",
+        "review_count": 15,
+        "good_ratio": 87,
+        "bad_ratio": 13
+      },
+      "female_20s": {
+        "aggregation_name": "女性・20代",
+        "review_count": 60,
+        "good_ratio": 83,
+        "bad_ratio": 17
+      },
+      "female_30s": {
+        "aggregation_name": "女性・30代",
+        "review_count": 70,
+        "good_ratio": 80,
+        "bad_ratio": 20
+      },
+      "female_40s": {
+        "aggregation_name": "女性・40代",
+        "review_count": 55,
+        "good_ratio": 78,
+        "bad_ratio": 22
+      },
+      "female_50s": {
+        "aggregation_name": "女性・50代",
+        "review_count": 40,
+        "good_ratio": 82,
+        "bad_ratio": 18
+      },
+      "female_60s": {
+        "aggregation_name": "女性・60代",
+        "review_count": 30,
+        "good_ratio": 85,
+        "bad_ratio": 15
+      },
+      "female_70s": {
+        "aggregation_name": "女性・70代",
+        "review_count": 20,
+        "good_ratio": 88,
+        "bad_ratio": 12
+      },
+      "female_80s_plus": {
+        "aggregation_name": "女性・80代～",
+        "review_count": 5,
+        "good_ratio": 92,
+        "bad_ratio": 8
+      },
+      "other_teens": {
+        "aggregation_name": "その他・～10代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_20s": {
+        "aggregation_name": "その他・20代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_30s": {
+        "aggregation_name": "その他・30代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_40s": {
+        "aggregation_name": "その他・40代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_50s": {
+        "aggregation_name": "その他・50代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_60s": {
+        "aggregation_name": "その他・60代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_70s": {
+        "aggregation_name": "その他・70代",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      },
+      "other_80s_plus": {
+        "aggregation_name": "その他・80代～",
+        "review_count": 0,
+        "good_ratio": 0,
+        "bad_ratio": 0
+      }
+    },
+    "insight": "全体的に高評価が多く、特に若年層・女性からの支持が高い。"
+  },
+  "qualitative_evaluation": {
+    "comment_insight": "味がさっぱりしていて飲みやすい、健康志向で選ばれている。",
+    "good": {
+      "top_comments": [
+        {
+          "rank": 1,
+          "user_icon_index": 1,
+          "nickname": "ユーザーA",
+          "age_group": "20代",
+          "gender": "女性",
+          "comment": "とても美味しくて毎日飲みたいです！",
+          "like_count": 15
+        },
+        {
+          "rank": 2,
+          "user_icon_index": 2,
+          "nickname": "ユーザーB",
+          "age_group": "30代",
+          "gender": "男性",
+          "comment": "健康に良さそうで家族にも勧めたい。",
+          "like_count": 12
+        },
+        {
+          "rank": 3,
+          "user_icon_index": 3,
+          "nickname": "ユーザーC",
+          "age_group": "40代",
+          "gender": "女性",
+          "comment": "パッケージもおしゃれで気に入っています。",
+          "like_count": 10
+        }
+      ],
+      "frequent_words": [
+        { "word": "美味しい", "rank": 1 },
+        { "word": "健康", "rank": 2 },
+        { "word": "飲みやすい", "rank": 3 }
+      ],
+      "word_cloud_image_url": "https://example.com/images/wordcloud_1001.png",
+      "network_image_url": "https://example.com/images/network_1001.png"
+    },
+    "bad": {
+      "top_comments": [
+        {
+          "rank": 1,
+          "user_icon_index": 1,
+          "nickname": "ユーザーD",
+          "age_group": "50代",
+          "gender": "男性",
+          "comment": "もう少し甘さ控えめだと良い。",
+          "like_count": 5
+        },
+        {
+          "rank": 2,
+          "user_icon_index": 2,
+          "nickname": "ユーザーE",
+          "age_group": "60代",
+          "gender": "女性",
+          "comment": "値段が高いと感じる。",
+          "like_count": 3
+        },
+        {
+          "rank": 3,
+          "user_icon_index": 3,
+          "nickname": "ユーザーF",
+          "age_group": "70代",
+          "gender": "その他",
+          "comment": "量が少ない。",
+          "like_count": 2
+        }
+      ],
+      "frequent_words": [
+        { "word": "高い", "rank": 1 },
+        { "word": "甘い", "rank": 2 },
+        { "word": "少ない", "rank": 3 }
+      ],
+      "word_cloud_image_url": "https://example.com/images/wordcloud_1001.png",
+      "network_image_url": "https://example.com/images/network_1001.png"
+    }
+  },
+  "product_strength_improvement": {
+    "strengths": {
+      "young_male": {
+        "aggregation_name": "～20代男性",
+        "contents": [
+          {
+            "product_insight": "エネルギー補給に最適",
+            "detail": "部活やスポーツ後に飲むと元気が出る",
+            "display_order": 1,
+            "comment_id": [101]
+          },
+          {
+            "product_insight": "友達とシェアしやすい",
+            "detail": "パーティーやイベントで人気",
+            "display_order": 2,
+            "comment_id": [102]
+          },
+          {
+            "product_insight": "デザインがかっこいい",
+            "detail": "若者向けのパッケージ",
+            "display_order": 3,
+            "comment_id": [103]
+          }
+        ]
+      },
+      "middle_male": {
+        "aggregation_name": "30～40代男性",
+        "contents": [
+          {
+            "product_insight": "健康維持に役立つ",
+            "detail": "仕事の合間にリフレッシュできる",
+            "display_order": 1,
+            "comment_id": [104]
+          },
+          {
+            "product_insight": "家族で楽しめる",
+            "detail": "家族みんなで飲める味",
+            "display_order": 2,
+            "comment_id": [105]
+          },
+          {
+            "product_insight": "コスパが良い",
+            "detail": "価格と量のバランスが良い",
+            "display_order": 3,
+            "comment_id": [106]
+          }
+        ]
+      },
+      "senior_male": {
+        "aggregation_name": "50～60代男性",
+        "contents": [
+          {
+            "product_insight": "体に優しい",
+            "detail": "健康志向の方におすすめ",
+            "display_order": 1,
+            "comment_id": [110]
+          },
+          {
+            "product_insight": "飲みやすい",
+            "detail": "高齢者でも飲みやすい",
+            "display_order": 2,
+            "comment_id": [111]
+          },
+          {
+            "product_insight": "パッケージが見やすい",
+            "detail": "文字が大きくて分かりやすい",
+            "display_order": 3,
+            "comment_id": [112]
+          }
+        ]
+      },
+      "elderly_male": {
+        "aggregation_name": "70代～男性",
+        "contents": [
+          {
+            "product_insight": "飲みやすい",
+            "detail": "高齢者でも飲みやすい",
+            "display_order": 1,
+            "comment_id": [113]
+          },
+          {
+            "product_insight": "健康維持に役立つ",
+            "detail": "毎日続けやすい味",
+            "display_order": 2,
+            "comment_id": [114]
+          },
+          {
+            "product_insight": "パッケージが開けやすい",
+            "detail": "高齢者でも開けやすい工夫",
+            "display_order": 3,
+            "comment_id": [115]
+          }
+        ]
+      },
+      "young_female": {
+        "aggregation_name": "～20代女性",
+        "contents": [
+          {
+            "product_insight": "美容に良い",
+            "detail": "美容成分配合で女性に人気",
+            "display_order": 1,
+            "comment_id": [116]
+          },
+          {
+            "product_insight": "パッケージがかわいい",
+            "detail": "SNS映えするデザイン",
+            "display_order": 2,
+            "comment_id": [117]
+          },
+          {
+            "product_insight": "飲みやすい",
+            "detail": "クセがなく毎日飲める",
+            "display_order": 3,
+            "comment_id": [118]
+          }
+        ]
+      },
+      "middle_female": {
+        "aggregation_name": "30～40代女性",
+        "contents": [
+          {
+            "product_insight": "忙しい朝に最適",
+            "detail": "朝食代わりに飲める",
+            "display_order": 1,
+            "comment_id": [119]
+          },
+          {
+            "product_insight": "家族の健康管理に",
+            "detail": "家族の健康を考える女性におすすめ",
+            "display_order": 2,
+            "comment_id": [120]
+          },
+          {
+            "product_insight": "コスパが良い",
+            "detail": "価格と量のバランスが良い",
+            "display_order": 3,
+            "comment_id": [121]
+          }
+        ]
+      },
+      "senior_female": {
+        "aggregation_name": "50～60代女性",
+        "contents": [
+          {
+            "product_insight": "体調管理に役立つ",
+            "detail": "体調を気遣う方に人気",
+            "display_order": 1,
+            "comment_id": [125]
+          },
+          {
+            "product_insight": "飲みやすい",
+            "detail": "高齢女性でも飲みやすい",
+            "display_order": 2,
+            "comment_id": [126]
+          },
+          {
+            "product_insight": "パッケージが見やすい",
+            "detail": "文字が大きくて分かりやすい",
+            "display_order": 3,
+            "comment_id": [127]
+          }
+        ]
+      },
+      "elderly_female": {
+        "aggregation_name": "70代～女性",
+        "contents": [
+          {
+            "product_insight": "飲みやすい",
+            "detail": "高齢女性でも飲みやすい",
+            "display_order": 1,
+            "comment_id": [128]
+          },
+          {
+            "product_insight": "健康維持に役立つ",
+            "detail": "毎日続けやすい味",
+            "display_order": 2,
+            "comment_id": [129]
+          },
+          {
+            "product_insight": "パッケージが開けやすい",
+            "detail": "高齢者でも開けやすい工夫",
+            "display_order": 3,
+            "comment_id": [130]
+          }
+        ]
+      }
+    },
+    "improvements": {
+      "young_male": {
+        "aggregation_name": "～20代男性",
+        "contents": [
+          {
+            "product_insight": "価格が高い",
+            "detail": "学生には少し手が出しづらい",
+            "display_order": 1,
+            "comment_id": [201]
+          },
+          {
+            "product_insight": "量が少ない",
+            "detail": "もう少し量が多いと嬉しい",
+            "display_order": 2,
+            "comment_id": [211]
+          },
+          {
+            "product_insight": "パッケージが地味",
+            "detail": "パッケージデザインを改善してほしい",
+            "display_order": 3,
+            "comment_id": [212]
+          }
+        ]
+      },
+      "middle_male": {
+        "aggregation_name": "30～40代男性",
+        "contents": [
+          {
+            "product_insight": "量が少ない",
+            "detail": "もう少し量が多いと嬉しい",
+            "display_order": 1,
+            "comment_id": [202]
+          },
+          {
+            "product_insight": "味が薄い",
+            "detail": "もう少し濃い味が好み",
+            "display_order": 2,
+            "comment_id": [213]
+          },
+          {
+            "product_insight": "価格が高い",
+            "detail": "家計に優しい価格にしてほしい",
+            "display_order": 3,
+            "comment_id": [214]
+          }
+        ]
+      },
+      "senior_male": {
+        "aggregation_name": "50～60代男性",
+        "contents": [
+          {
+            "product_insight": "パッケージが地味",
+            "detail": "パッケージデザインを改善してほしい",
+            "display_order": 1,
+            "comment_id": [204]
+          },
+          {
+            "product_insight": "味が濃い",
+            "detail": "もう少し薄味が良い",
+            "display_order": 2,
+            "comment_id": [217]
+          },
+          {
+            "product_insight": "持ち運びに不便",
+            "detail": "もう少し小さいサイズが欲しい",
+            "display_order": 3,
+            "comment_id": [218]
+          }
+        ]
+      },
+      "elderly_male": {
+        "aggregation_name": "70代～男性",
+        "contents": [
+          {
+            "product_insight": "値段が高い",
+            "detail": "年金生活者には高い",
+            "display_order": 1,
+            "comment_id": [205]
+          },
+          {
+            "product_insight": "パッケージが開けづらい",
+            "detail": "高齢者でも開けやすい工夫が必要",
+            "display_order": 2,
+            "comment_id": [219]
+          },
+          {
+            "product_insight": "甘すぎる",
+            "detail": "もう少し甘さ控えめが良い",
+            "display_order": 3,
+            "comment_id": [220]
+          }
+        ]
+      },
+      "young_female": {
+        "aggregation_name": "～20代女性",
+        "contents": [
+          {
+            "product_insight": "甘すぎる",
+            "detail": "もう少し甘さ控えめが良い",
+            "display_order": 1,
+            "comment_id": [206]
+          },
+          {
+            "product_insight": "価格が高い",
+            "detail": "学生には少し手が出しづらい",
+            "display_order": 2,
+            "comment_id": [221]
+          },
+          {
+            "product_insight": "持ち運びに不便",
+            "detail": "もう少し小さいサイズが欲しい",
+            "display_order": 3,
+            "comment_id": [222]
+          }
+        ]
+      },
+      "middle_female": {
+        "aggregation_name": "30～40代女性",
+        "contents": [
+          {
+            "product_insight": "持ち運びに不便",
+            "detail": "もう少し小さいサイズが欲しい",
+            "display_order": 1,
+            "comment_id": [207]
+          },
+          {
+            "product_insight": "味が濃い",
+            "detail": "もう少し薄味が良い",
+            "display_order": 2,
+            "comment_id": [223]
+          },
+          {
+            "product_insight": "価格が高い",
+            "detail": "家計に優しい価格にしてほしい",
+            "display_order": 3,
+            "comment_id": [224]
+          }
+        ]
+      },
+      "senior_female": {
+        "aggregation_name": "50～60代女性",
+        "contents": [
+          {
+            "product_insight": "味が濃い",
+            "detail": "もう少し薄味が良い",
+            "display_order": 1,
+            "comment_id": [209]
+          },
+          {
+            "product_insight": "価格が高い",
+            "detail": "家計に優しい価格にしてほしい",
+            "display_order": 2,
+            "comment_id": [227]
+          },
+          {
+            "product_insight": "パッケージが開けづらい",
+            "detail": "高齢者でも開けやすい工夫が必要",
+            "display_order": 3,
+            "comment_id": [228]
+          }
+        ]
+      },
+      "elderly_female": {
+        "aggregation_name": "70代～女性",
+        "contents": [
+          {
+            "product_insight": "パッケージが開けづらい",
+            "detail": "高齢者でも開けやすい工夫が必要",
+            "display_order": 1,
+            "comment_id": [210]
+          },
+          {
+            "product_insight": "値段が高い",
+            "detail": "年金生活者には高い",
+            "display_order": 2,
+            "comment_id": [229]
+          },
+          {
+            "product_insight": "甘すぎる",
+            "detail": "もう少し甘さ控えめが良い",
+            "display_order": 3,
+            "comment_id": [230]
+          }
+        ]
+      }
+    }
+  },
+  "improvement_measures": {
+    "improvement_points": [
+      {
+        "title": "価格を下げる",
+        "detail": "量を増やすか、価格を下げる施策を検討",
+        "display_order": 1
+      },
+      {
+        "title": "パッケージ改善",
+        "detail": "持ち運びやすいサイズに変更",
+        "display_order": 2
+      },
+      {
+        "title": "販促強化",
+        "detail": "SNSやイベントでのプロモーションを強化",
+        "display_order": 3
+      }
+    ],
+    "improvement_strategies": [
+      {
+        "title": "パッケージデザイン変更",
+        "detail": "より若年層向けのデザインに変更",
+        "display_order": 1
+      },
+      {
+        "title": "開けやすいパッケージ",
+        "detail": "高齢者でも開けやすい工夫を追加",
+        "display_order": 2
+      },
+      {
+        "title": "新フレーバー追加",
+        "detail": "季節限定や健康志向の新フレーバーを追加",
+        "display_order": 3
+      }
+    ]
+  }
+}

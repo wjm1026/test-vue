@@ -1,0 +1,44 @@
+{
+  "categories": [
+    {
+      "category_id": 1,
+      "category_name": "飲料"
+    },
+    {
+      "category_id": 2,
+      "category_name": "菓子"
+    },
+    {
+      "category_id": 3,
+      "category_name": "調味料"
+    },
+    {
+      "category_id": 4,
+      "category_name": "冷凍食品"
+    },
+    {
+      "category_id": 5,
+      "category_name": "乳製品"
+    },
+    {
+      "category_id": 6,
+      "category_name": "パン"
+    },
+    {
+      "category_id": 7,
+      "category_name": "米・雑穀"
+    },
+    {
+      "category_id": 8,
+      "category_name": "肉・魚"
+    },
+    {
+      "category_id": 9,
+      "category_name": "野菜・果物"
+    },
+    {
+      "category_id": 10,
+      "category_name": "その他"
+    }
+  ]
+}

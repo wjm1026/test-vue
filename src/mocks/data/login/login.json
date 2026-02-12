@@ -1,0 +1,6 @@
+{
+  "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZSI6WyJyZXByZXNlbnQiXSwiZXhwIjoxNzY2NTQ2MDYzfQ.YV9Ji1v_kU3TYMJlSfR2GOkZovWGN2BlcOIQQ07yZxnTQk0qeyqC3GQbDNePkmiRKCiHeufCYSAHVdwUypHy_dIF92f3dVTBm-A8AmlBS42qMCJjyKd5-X-WSt0hMxtUw-XxUwlD_QDO-GWcVcvt6o87D1-0RTPEktOJ7Z8UVnQWZn6YdMsKdb-SVbAMbXHjKKr3_4BS6InJ4SeBVrR1ihLqUpbwRiX7_McmFrTzH5HixewSUgmIeRckSYWBxHhspbagLx9SPkILKl7dKeNV0a9ATnJ__-QVHAfSJfnEWePWwl452Z9CjokYJ2NhM3H2uk4gAbuTRbMPqhdQClYqvw",
+  "token_type": "Bearer",
+  "expires_in": 900,
+  "company_name": "株式会社サンプル"
+}

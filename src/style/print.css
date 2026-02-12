@@ -1,0 +1,190 @@
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: white !important;
+    overflow: visible !important;
+  }
+
+  .no-print,
+  .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    pointer-events: none !important;
+  }
+
+  .el-aside {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .el-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .el-loading-mask,
+  .el-dialog,
+  .el-overlay,
+  .el-message,
+  .el-notification {
+    display: none !important;
+  }
+
+  .el-image,
+  img {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    max-width: 100%;
+  }
+
+  @page {
+    margin: 10mm 8mm;
+    size: A4;
+  }
+
+  .el-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    font-size: 9px !important;
+  }
+
+  .el-table__header-wrapper,
+  .el-table__body-wrapper {
+    width: 100% !important;
+    overflow: visible !important;
+    max-width: 100% !important;
+  }
+
+  .el-table__header,
+  .el-table__body {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .el-table colgroup col {
+    width: auto !important;
+  }
+
+  .el-table colgroup col:nth-child(1) {
+    width: 8% !important;
+  }
+
+  .el-table colgroup col:nth-child(2) {
+    width: 22% !important;
+  }
+
+  .el-table colgroup col:nth-child(3) {
+    width: 8% !important;
+  }
+
+  .el-table colgroup col:nth-child(4) {
+    width: 22% !important;
+  }
+
+  .el-table colgroup col:nth-child(5) {
+    width: 8% !important;
+  }
+
+  .el-table th {
+    display: table-cell !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    padding: 3px 4px !important;
+    width: auto !important;
+    vertical-align: middle !important;
+    text-align: left !important;
+  }
+
+  .el-table td {
+    display: table-cell !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    padding: 3px 4px !important;
+    width: auto !important;
+  }
+
+  .el-table__header th:nth-child(1),
+  .el-table__body td:nth-child(1) {
+    width: 8% !important;
+    min-width: 60px !important;
+  }
+
+  .el-table__header th:nth-child(2),
+  .el-table__body td:nth-child(2) {
+    width: 22% !important;
+    min-width: 120px !important;
+  }
+
+  .el-table__header th:nth-child(3),
+  .el-table__body td:nth-child(3) {
+    width: 8% !important;
+    min-width: 80px !important;
+  }
+
+  .el-table__header th:nth-child(4),
+  .el-table__body td:nth-child(4) {
+    width: 22% !important;
+    min-width: 120px !important;
+  }
+
+  .el-table__header th:nth-child(5),
+  .el-table__body td:nth-child(5) {
+    width: 8% !important;
+    min-width: 80px !important;
+  }
+
+  .el-table__body-wrapper {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  .el-table__fixed,
+  .el-table__fixed-right {
+    display: none !important;
+  }
+
+  .print\:break-before-page {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  div[class*='border'] {
+    border: none !important;
+    border-width: 0 !important;
+    border-style: none !important;
+    outline: none !important;
+  }
+
+  div[class*='bg-gray100'] {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  div[class*='rounded-xl'] {
+    border-radius: 0 !important;
+  }
+
+  div[class*='px-10'],
+  div[class*='py-8'] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}

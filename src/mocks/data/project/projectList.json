@@ -1,0 +1,126 @@
+{
+  "total": 100,
+  "projects": [
+    {
+      "product_image_url": "https://example.com/images/product_10010.jpg",
+      "project_id": 1010,
+      "project_name": "健康飲料モニター調査2025",
+      "start_date": "2025-09-01",
+      "end_date": "2025-09-30",
+      "product_name": "サンプル健康飲料A",
+      "jan_code": "4901234567890",
+      "method": "アンケート",
+      "point": 100
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10009.jpg",
+      "project_id": 1009,
+      "project_name": "新商品試飲プロジェクト",
+      "start_date": "2025-08-01",
+      "end_date": "2025-08-31",
+      "product_name": "サンプル炭酸水B",
+      "jan_code": "4901234567891",
+      "method": "試飲会",
+      "point": 150
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10008.jpg",
+      "project_id": 1008,
+      "project_name": "プロジェクトC",
+      "start_date": "2025-07-01",
+      "end_date": "2025-07-31",
+      "product_name": "サンプルお菓子C",
+      "jan_code": "4901234567892",
+      "method": "サンプリング",
+      "point": 80
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10007.jpg",
+      "project_id": 1007,
+      "project_name": "プロジェクトD",
+      "start_date": "2025-06-01",
+      "end_date": "2025-06-30",
+      "product_name": "サンプル食品D",
+      "jan_code": "4901234567893",
+      "method": "アンケート",
+      "point": 90
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10006.jpg",
+      "project_id": 1006,
+      "project_name": "プロジェクトE",
+      "start_date": "2025-05-01",
+      "end_date": "2025-05-31",
+      "product_name": "サンプル飲料E",
+      "jan_code": "4901234567894",
+      "method": "試飲会",
+      "point": 120
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10005.jpg",
+      "project_id": 1005,
+      "project_name": "プロジェクトF",
+      "start_date": "2025-04-01",
+      "end_date": "2025-04-30",
+      "product_name": "サンプル食品F",
+      "jan_code": "4901234567895",
+      "method": "アンケート",
+      "point": 110
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10004.jpg",
+      "project_id": 1004,
+      "project_name": "プロジェクトG",
+      "start_date": "2025-03-01",
+      "end_date": "2025-03-31",
+      "product_name": "サンプル飲料G",
+      "jan_code": "4901234567896",
+      "method": "サンプリング",
+      "point": 95
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10003.jpg",
+      "project_id": 1003,
+      "project_name": "プロジェクトH",
+      "start_date": "2025-02-01",
+      "end_date": "2025-02-28",
+      "product_name": "サンプルお菓子H",
+      "jan_code": "4901234567897",
+      "method": "アンケート",
+      "point": 105
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10002.jpg",
+      "project_id": 1002,
+      "project_name": "プロジェクトI",
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-31",
+      "product_name": "サンプル食品I",
+      "jan_code": "4901234567898",
+      "method": "試飲会",
+      "point": 130
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10001.jpg",
+      "project_id": 1001,
+      "project_name": "プロジェクトJ",
+      "start_date": "2024-12-01",
+      "end_date": "2024-12-31",
+      "product_name": "サンプル飲料J",
+      "jan_code": "4901234567899",
+      "method": "アンケート",
+      "point": 115
+    },
+    {
+      "product_image_url": "https://example.com/images/product_10010.jpg",
+      "project_id": 10102,
+      "project_name": "健康飲料モニター調査2025",
+      "start_date": "2025-09-01",
+      "end_date": "2025-09-30",
+      "product_name": "サンプル健康飲料A",
+      "jan_code": "4901234567890",
+      "method": "アンケート",
+      "point": 100
+    }
+  ]
+}

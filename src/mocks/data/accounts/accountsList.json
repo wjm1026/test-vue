@@ -1,0 +1,50 @@
+{
+  "total": 5,
+  "accounts": [
+    {
+      "account_id": 1,
+      "account_name": "管理者A",
+      "email": "adminA@company.com",
+      "role_display_name": "代表管理者",
+      "status_code": "00",
+      "status_display_name": "有効",
+      "last_login": "2025-11-28T09:15:00"
+    },
+    {
+      "account_id": 2,
+      "account_name": "担当者B",
+      "email": "staffB@company.com",
+      "role_display_name": "管理者ユーザー",
+      "status_code": "02",
+      "status_display_name": "招待中",
+      "last_login": "2025-11-27T18:30:00"
+    },
+    {
+      "account_id": 3,
+      "account_name": "ゲストC",
+      "email": "guestC@company.com",
+      "role_display_name": "一般ユーザー",
+      "status_code": "01",
+      "status_display_name": "無効",
+      "last_login": "2025-11-20T12:00:00"
+    },
+    {
+      "account_id": 4,
+      "account_name": "管理者D",
+      "email": "adminD@company.com",
+      "role_display_name": "一般ユーザー",
+      "status_code": "00",
+      "status_display_name": "有効",
+      "last_login": "2025-11-25T08:45:00"
+    },
+    {
+      "account_id": 5,
+      "account_name": "担当者E",
+      "email": "staffE@company.com",
+      "role_display_name": "一般ユーザー",
+      "status_code": "02",
+      "status_display_name": "招待中",
+      "last_login": "2025-11-26T14:10:00"
+    }
+  ]
+}

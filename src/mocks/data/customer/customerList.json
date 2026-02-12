@@ -1,0 +1,85 @@
+{
+  "total": 10,
+  "users":[
+    {
+      "user_id": 101,
+      "nickname": "山田太郎",
+      "gender": "男性",
+      "age_group": "30代",
+      "total_reviews": 45,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 102,
+      "nickname": "佐藤花子",
+      "gender": "女性",
+      "age_group": "40代",
+      "total_reviews": 38,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 103,
+      "nickname": "田中一郎",
+      "gender": "男性",
+      "age_group": "20代",
+      "total_reviews": 52,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 104,
+      "nickname": "鈴木美咲",
+      "gender": "女性",
+      "age_group": "30代",
+      "total_reviews": 27,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 105,
+      "nickname": "高橋健",
+      "gender": "男性",
+      "age_group": "50代",
+      "total_reviews": 19,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 106,
+      "nickname": "伊藤由美",
+      "gender": "女性",
+      "age_group": "60代",
+      "total_reviews": 8,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 107,
+      "nickname": "渡辺翔",
+      "gender": "男性",
+      "age_group": "40代",
+      "total_reviews": 33,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 108,
+      "nickname": "小林優子",
+      "gender": "女性",
+      "age_group": "20代",
+      "total_reviews": 41,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 109,
+      "nickname": "加藤誠",
+      "gender": "男性",
+      "age_group": "30代",
+      "total_reviews": 24,
+      "updated_at": "2024-06-15T10:20:30Z"
+    },
+    {
+      "user_id": 110,
+      "nickname": "中村美穂",
+      "gender": "女性",
+      "age_group": "50代",
+      "total_reviews": 15,
+      "updated_at": "2024-06-15T10:20:30Z"
+    }
+  ]
+}

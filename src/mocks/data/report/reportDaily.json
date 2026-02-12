@@ -1,0 +1,234 @@
+{
+  "product_name": "特製フライドポテト",
+  "maker": "BIPROGY株式会社",
+  "description": "外はカリッと香ばしく、中はホクホク。",
+  "project_id": 1,
+  "project_name": "特製フライドポテト_発売直後の反応調査",
+  "start_date": "2025-04-01",
+  "end_date": "2025-04-30",
+  "method": "商品レビュー",
+  "review_target_start": "2025-03-01",
+  "review_target_end": "2025-04-30",
+  "image_url": "https://example.com/image.jpg",
+  "updated_date": "2025-05-01T10:00:00Z",
+  "aggregation_data": {
+    "overall": {
+      "aggregation_name": "全体",
+      "review_count": 642,
+      "good_ratio": 63,
+      "bad_ratio": 37,
+      "good_review_count": 404,
+      "bad_review_count": 238
+    },
+    "male": {
+      "aggregation_name": "男性",
+      "review_count": 257,
+      "good_ratio": 60,
+      "bad_ratio": 40
+    },
+    "female": {
+      "aggregation_name": "女性",
+      "review_count": 321,
+      "good_ratio": 65,
+      "bad_ratio": 35
+    },
+    "other": {
+      "aggregation_name": "その他",
+      "review_count": 64,
+      "good_ratio": 63,
+      "bad_ratio": 37
+    },
+    "age_teens": {
+      "aggregation_name": "～10代",
+      "review_count": 19,
+      "good_ratio": 58,
+      "bad_ratio": 42
+    },
+    "age_20s": {
+      "aggregation_name": "20代",
+      "review_count": 64,
+      "good_ratio": 59,
+      "bad_ratio": 41
+    },
+    "age_30s": {
+      "aggregation_name": "30代",
+      "review_count": 154,
+      "good_ratio": 65,
+      "bad_ratio": 35
+    },
+    "age_40s": {
+      "aggregation_name": "40代",
+      "review_count": 161,
+      "good_ratio": 64,
+      "bad_ratio": 36
+    },
+    "age_50s": {
+      "aggregation_name": "50代",
+      "review_count": 128,
+      "good_ratio": 62,
+      "bad_ratio": 38
+    },
+    "age_60s": {
+      "aggregation_name": "60代",
+      "review_count": 64,
+      "good_ratio": 61,
+      "bad_ratio": 39
+    },
+    "age_70s": {
+      "aggregation_name": "70代",
+      "review_count": 32,
+      "good_ratio": 59,
+      "bad_ratio": 41
+    },
+    "age_80s_plus": {
+      "aggregation_name": "80代～",
+      "review_count": 13,
+      "good_ratio": 62,
+      "bad_ratio": 38
+    },
+    "male_teens": {
+      "aggregation_name": "～10代男性",
+      "review_count": 8,
+      "good_ratio": 58,
+      "bad_ratio": 42
+    },
+    "male_20s": {
+      "aggregation_name": "20代男性",
+      "review_count": 26,
+      "good_ratio": 58,
+      "bad_ratio": 42
+    },
+    "male_30s": {
+      "aggregation_name": "30代男性",
+      "review_count": 62,
+      "good_ratio": 59,
+      "bad_ratio": 41
+    },
+    "male_40s": {
+      "aggregation_name": "40代男性",
+      "review_count": 64,
+      "good_ratio": 59,
+      "bad_ratio": 41
+    },
+    "male_50s": {
+      "aggregation_name": "50代男性",
+      "review_count": 51,
+      "good_ratio": 59,
+      "bad_ratio": 41
+    },
+    "male_60s": {
+      "aggregation_name": "60代男性",
+      "review_count": 26,
+      "good_ratio": 58,
+      "bad_ratio": 42
+    },
+    "male_70s": {
+      "aggregation_name": "70代男性",
+      "review_count": 13,
+      "good_ratio": 58,
+      "bad_ratio": 42
+    },
+    "male_80s_plus": {
+      "aggregation_name": "80代～男性",
+      "review_count": 5,
+      "good_ratio": 60,
+      "bad_ratio": 40
+    },
+    "female_teens": {
+      "aggregation_name": "～10代女性",
+      "review_count": 9,
+      "good_ratio": 67,
+      "bad_ratio": 33
+    },
+    "female_20s": {
+      "aggregation_name": "20代女性",
+      "review_count": 32,
+      "good_ratio": 66,
+      "bad_ratio": 34
+    },
+    "female_30s": {
+      "aggregation_name": "30代女性",
+      "review_count": 77,
+      "good_ratio": 70,
+      "bad_ratio": 30
+    },
+    "female_40s": {
+      "aggregation_name": "40代女性",
+      "review_count": 80,
+      "good_ratio": 68,
+      "bad_ratio": 32
+    },
+    "female_50s": {
+      "aggregation_name": "50代女性",
+      "review_count": 64,
+      "good_ratio": 64,
+      "bad_ratio": 36
+    },
+    "female_60s": {
+      "aggregation_name": "60代女性",
+      "review_count": 32,
+      "good_ratio": 63,
+      "bad_ratio": 37
+    },
+    "female_70s": {
+      "aggregation_name": "70代女性",
+      "review_count": 16,
+      "good_ratio": 63,
+      "bad_ratio": 37
+    },
+    "female_80s_plus": {
+      "aggregation_name": "80代～女性",
+      "review_count": 7,
+      "good_ratio": 64,
+      "bad_ratio": 36
+    },
+    "other_teens": {
+      "aggregation_name": "～10代その他",
+      "review_count": 2,
+      "good_ratio": 50,
+      "bad_ratio": 50
+    },
+    "other_20s": {
+      "aggregation_name": "20代その他",
+      "review_count": 6,
+      "good_ratio": 67,
+      "bad_ratio": 33
+    },
+    "other_30s": {
+      "aggregation_name": "30代その他",
+      "review_count": 15,
+      "good_ratio": 60,
+      "bad_ratio": 40
+    },
+    "other_40s": {
+      "aggregation_name": "40代その他",
+      "review_count": 17,
+      "good_ratio": 59,
+      "bad_ratio": 41
+    },
+    "other_50s": {
+      "aggregation_name": "50代その他",
+      "review_count": 13,
+      "good_ratio": 62,
+      "bad_ratio": 38
+    },
+    "other_60s": {
+      "aggregation_name": "60代その他",
+      "review_count": 6,
+      "good_ratio": 67,
+      "bad_ratio": 33
+    },
+    "other_70s": {
+      "aggregation_name": "70代その他",
+      "review_count": 3,
+      "good_ratio": 67,
+      "bad_ratio": 33
+    },
+    "other_80s_plus": {
+      "aggregation_name": "80代～その他",
+      "review_count": 1,
+      "good_ratio": 100,
+      "bad_ratio": 0
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "login": {
+    "success": "ログインに成功しました。",
+    "failed": "ログインに失敗しました。",
+    "tokenExpired": "トークンが有効期限切れです。再度ログインしてください。",
+    "emailRequired": "メールアドレスは必須項目です",
+    "emailInvalid": "メールアドレス形式で入力してください",
+    "passwordRequired": "パスワードは必須項目です",
+    "passwordLength": "パスワードは12文字以上で入力してください",
+    "passwordPattern": "半角英大文字、半角英小文字、数字、記号（! @ # $ % ^ & * ( ) _ + - =）を必ず１文字使用してください",
+    "confirmPasswordRequired": "確認用パスワードは必須項目です",
+    "confirmPasswordNotMatch": "パスワードと確認用パスワードが一致しません",
+    "resetPasswordSuccess": "パスワードの再設定に成功しました",
+    "resetPasswordInvalidToken": "無効なリンクです。パスワード再設定メールからアクセスしてください。"
+  },
+  "project": {
+    "deleteSuccess": "削除が完了しました",
+    "validateDate": "実施期間は必須項目です",
+    "validateEndDate": "実施期間（終了日）は必須項目です",
+    "nameRequired": "プロジェクト名は必須項目です",
+    "namePattern": "プロジェクト名は100文字以内で入力してください",
+    "targetProductRequired": "対象商品は必須項目です",
+    "pointRequired": "付与ポイントは必須項目です",
+    "pointPattern": "付与ポイントは0～99999の範囲で入力してください",
+    "priorityRequired": "優先順位は必須項目です",
+    "priorityPattern": "優先順位は1～10の範囲で入力してください",
+    "dateWarning": "期間が短いため十分なデータが集まらない可能性があります"
+  },
+  "product": {
+    "deleteSuccess": "削除が完了しました",
+    "productNameRequired": "商品名は必須項目です",
+    "makerRequired": "メーカー名は必須項目です",
+    "productCategoryRequired": "カテゴリは必須項目です",
+    "janCodeRequired": "JANコードは必須項目です",
+    "janCodePattern": "JANコードは半角英数字で入力してください"
+  },
+  "account": {
+    "deleteSuccess": "削除が完了しました",
+    "updateStatusSuccess": "ステータスを更新しました",
+    "accountNameRequired": "氏名は必須項目です",
+    "roleRequired": "ロールは必須項目です"
+  },
+  "comment": {
+    "replySuccess": "返信を送信しました",
+    "replyDeleteSuccess": "返信を削除しました",
+    "checkSuccess": "チェック状態を更新しました",
+    "displaySuccess": "表示状態を更新しました",
+    "hideAllSuccess": "全てのコメントを非表示にしました"
+  },
+  "dialog": {
+    "deleteConfirmTitle": "削除の確認",
+    "deleteConfirm": "この操作は取り消せません。本当に削除しますか？"
+  }
+}

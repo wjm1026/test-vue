@@ -1,0 +1,26 @@
+{
+  "project": {
+    "id": 1021,
+    "name": "2025年秋季新商品調査プロジェクト",
+    "start_date": "2026-10-01",
+    "end_date": "2026-10-31",
+    "purchase_start_date": "2025-09-01",
+    "purchase_end_date": "2025-10-31",
+    "publish_start_date": "2025-10-01",
+    "publish_end_date": "2025-11-14",
+    "method": "NCライト",
+    "point": 100,
+    "priority_flag": 1,
+    "priority": 2,
+    "report_id": 123
+  },
+  "products": [
+    {
+      "image_url": "https://example.com/images/product_1002.jpg",
+      "product_name": "リッチチョコレート",
+      "maker": "スイーツファクトリー",
+      "jan_code": "1234567890124",
+      "created_at": "2025-09-28"
+    }
+  ]
+}

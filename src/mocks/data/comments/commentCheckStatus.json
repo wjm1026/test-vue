@@ -1,0 +1,13 @@
+{
+  "result_code": 1,
+  "status_list": [
+    {
+      "review_id": 10000000,
+      "check_flag": 1
+    },
+    {
+      "review_id": 10000001,
+      "check_flag": 0
+    }
+  ]
+}

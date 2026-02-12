@@ -1,0 +1,75 @@
+{
+  "total": 10,
+  "products": [
+    {
+      "product_image_url": "https://example.com/images/product1.jpg",
+      "product_name": "プレミアムコーヒーA",
+      "maker": "コーヒー株式会社",
+      "jan_code": "4901234567890",
+      "created_at": "2025-09-01T10:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product2.jpg",
+      "product_name": "有機紅茶B",
+      "maker": "紅茶ファーム",
+      "jan_code": "4901234567891",
+      "created_at": "2025-09-02T11:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product3.jpg",
+      "product_name": "ミネラルウォーターC",
+      "maker": "ウォーターズ株式会社",
+      "jan_code": "4901234567892",
+      "created_at": "2025-09-03T12:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product4.jpg",
+      "product_name": "グリーンスムージーD",
+      "maker": "スムージー工房",
+      "jan_code": "4901234567893",
+      "created_at": "2025-09-04T13:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product5.jpg",
+      "product_name": "フルーツジュースE",
+      "maker": "フルーツファクトリー",
+      "jan_code": "4901234567894",
+      "created_at": "2025-09-05T14:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product6.jpg",
+      "product_name": "抹茶ラテF",
+      "maker": "お茶の里",
+      "jan_code": "4901234567895",
+      "created_at": "2025-09-06T15:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product7.jpg",
+      "product_name": "スポーツドリンクG",
+      "maker": "スポドリ株式会社",
+      "jan_code": "4901234567896",
+      "created_at": "2025-09-07T16:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product8.jpg",
+      "product_name": "炭酸水H",
+      "maker": "スパークリング社",
+      "jan_code": "4901234567897",
+      "created_at": "2025-09-08T17:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product9.jpg",
+      "product_name": "野菜ジュースI",
+      "maker": "ベジタブル株式会社",
+      "jan_code": "4901234567898",
+      "created_at": "2025-09-09T18:00:00Z"
+    },
+    {
+      "product_image_url": "https://example.com/images/product10.jpg",
+      "product_name": "レモネードJ",
+      "maker": "レモンファーム",
+      "jan_code": "4901234567899",
+      "created_at": "2025-09-10T19:00:00Z"
+    }
+  ]
+}

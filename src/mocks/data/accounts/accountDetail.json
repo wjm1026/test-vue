@@ -1,0 +1,9 @@
+{
+  "account_id": 101,
+  "account_name": "山田太郎",
+  "email": "yamada.taro@example.com",
+  "role_id": 2,
+  "role_display_name": "管理者ユーザー",
+  "status_code": "00",
+  "status_display_name": "有効"
+}

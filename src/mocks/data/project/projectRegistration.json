@@ -1,0 +1,11 @@
+{
+  "result_code": 1,
+  "name": "販売直後の調査①",
+  "start_date": "2025-10-01",
+  "end_date": "2025-10-31",
+  "products": [
+    {
+      "image_url": "https://example.com/images/product_1001.jpg"
+    }
+  ]
+}

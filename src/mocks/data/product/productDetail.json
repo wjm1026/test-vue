@@ -1,0 +1,12 @@
+{
+  "product_id": 12345,
+  "product_image": "https://example.com/images/product_12345.jpg",
+  "product_name": "サンプル商品A",
+  "maker": "サンプルメーカー株式会社",
+  "jan_code": "4901234567890",
+  "category_name": "飲料",
+  "description": "サンプル商品の説明文です。おいしくて便利な商品です。",
+  "capacity": "500ml",
+  "other": "10/1発売。新商品",
+  "used_flag": 1
+}

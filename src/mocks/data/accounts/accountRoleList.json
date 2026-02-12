@@ -1,0 +1,16 @@
+{
+  "roles": [
+    {
+      "role_id": 1,
+      "role_display_name": "代表管理者"
+    },
+    {
+      "role_id": 2,
+      "role_display_name": "管理者ユーザー"
+    },
+    {
+      "role_id": 3,
+      "role_display_name": "一般ユーザー"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "review_id": 123,
+  "display_flag": 1,
+  "reply": "",
+  "comment": "とても美味しいです！ただ、量が少ないので、もっと大容量のものを作ってほしいです。",
+  "rating": 5,
+  "created_at": "2025-11-14 11:00",
+  "project_id": 456,
+  "user_id": 789,
+  "product_name": "特製フライドポテト",
+  "image_url": "https://example.com/image.jpg",
+  "nick_name": "ゆりちゃんママ"
+}

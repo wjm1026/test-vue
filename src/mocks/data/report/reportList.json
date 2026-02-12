@@ -1,0 +1,137 @@
+{
+  "total": 100,
+  "reports": [
+    {
+      "image_url": "https://example.com/images/product_10010.jpg",
+      "report_id": 1010,
+      "project_id": 1001,
+      "project_name": "健康飲料モニター調査2025",
+      "product_name": "サンプル健康飲料A",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-09-01",
+      "end_date": "2025-09-30"
+    },
+    {
+      "image_url": "https://example.com/images/product_10009.jpg",
+      "report_id": 1009,
+      "project_id": 1002,
+      "project_name": "新商品試飲プロジェクト",
+      "product_name": "サンプル炭酸水B",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-08-01",
+      "end_date": "2025-08-31"
+    },
+    {
+      "image_url": "https://example.com/images/product_10008.jpg",
+      "report_id": 1008,
+      "project_id": 1003,
+      "project_name": "プロジェクトC",
+      "product_name": "サンプルお菓子C",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-07-01",
+      "end_date": "2025-07-31"
+    },
+    {
+      "image_url": "https://example.com/images/product_10007.jpg",
+      "report_id": 1007,
+      "project_id": 1004,
+      "project_name": "プロジェクトD",
+      "product_name": "サンプル食品D",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-06-01",
+      "end_date": "2025-06-30"
+    },
+    {
+      "image_url": "https://example.com/images/product_10006.jpg",
+      "report_id": 1006,
+      "project_id": 1005,
+      "project_name": "プロジェクトE",
+      "product_name": "サンプル飲料E",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-05-01",
+      "end_date": "2025-05-31"
+    },
+    {
+      "image_url": "https://example.com/images/product_10005.jpg",
+      "report_id": 1005,
+      "project_id": 1006,
+      "project_name": "プロジェクトF",
+      "product_name": "サンプル食品F",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-04-01",
+      "end_date": "2025-04-30"
+    },
+    {
+      "image_url": "https://example.com/images/product_10004.jpg",
+      "report_id": 1004,
+      "project_id": 1007,
+      "project_name": "プロジェクトG",
+      "product_name": "サンプル飲料G",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-03-01",
+      "end_date": "2025-03-31"
+    },
+    {
+      "image_url": "https://example.com/images/product_10003.jpg",
+      "report_id": 1003,
+      "project_id": 1008,
+      "project_name": "プロジェクトH",
+      "product_name": "サンプルお菓子H",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-02-01",
+      "end_date": "2025-02-28"
+    },
+    {
+      "image_url": "https://example.com/images/product_10002.jpg",
+      "report_id": 1002,
+      "project_id": 1009,
+      "project_name": "プロジェクトI",
+      "product_name": "サンプル食品I",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-01-01",
+      "end_date": "2025-01-31"
+    },
+    {
+      "image_url": "https://example.com/images/product_10001.jpg",
+      "report_id": 1001,
+      "project_id": 1010,
+      "project_name": "プロジェクトJ",
+      "product_name": "サンプル飲料J",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2024-12-01",
+      "end_date": "2024-12-31"
+    },
+    {
+      "image_url": "https://example.com/images/product_10010.jpg",
+      "report_id": 10102,
+      "project_id": 1001,
+      "project_name": "健康飲料モニター調査2025",
+      "product_name": "サンプル健康飲料A",
+      "review_count": 123456,
+      "comment_count": 123456,
+      "good_ratio": 99,
+      "start_date": "2025-09-01",
+      "end_date": "2025-09-30"
+    }
+  ]
+}
