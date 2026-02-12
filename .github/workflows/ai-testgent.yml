@@ -69,7 +69,8 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore(ai-testgent): add generated tests for PR #${{ github.event.pull_request.number }}"
+          # Skip local git hooks (husky) in CI. We already run tests as part of ai-testgent.
+          git commit --no-verify -m "chore(ai-testgent): add generated tests for PR #${{ github.event.pull_request.number }}"
           git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
 
       - name: Upload AI testgent report
