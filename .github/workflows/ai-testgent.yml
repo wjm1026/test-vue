@@ -1,0 +1,53 @@
+name: AI TestGent
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ai-testgent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run AI test generator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            yarn ai-testgent --pr "${{ github.event.pull_request.number }}"
+          else
+            yarn ai-testgent --base origin/main --no-comment
+          fi
+
+      - name: Upload AI testgent report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-testgent-report-${{ github.run_id }}
+          path: |
+            output/ai-testgent-report.json
+            output/ai-testgent-report.md
+          if-no-files-found: ignore
+          retention-days: 14
