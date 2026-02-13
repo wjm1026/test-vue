@@ -18,6 +18,7 @@ export default defineConfig((configEnv) =>
         exclude: [...configDefaults.exclude, 'src/e2e/**'],
         coverage: {
           provider: 'v8',
+          reporter: ['text', 'json-summary'],
           include: ['src/**/*.{ts,tsx,vue}'],
           exclude: ['src/e2e/**', 'src/__tests__/**'],
         },

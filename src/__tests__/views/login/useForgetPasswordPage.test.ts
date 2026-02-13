@@ -10,7 +10,7 @@ describe('useForgetPasswordPage', () => {
 
     emailSubmitSuccess('user@example.com')
 
-    expect(activeStep.value).toBe(1)
+    expect(activeStep.value).toBe(13)
     expect(savedEmail.value).toBe('user@example.com')
   })
 })

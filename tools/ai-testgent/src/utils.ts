@@ -2,6 +2,23 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+// ── Log Grouping Helpers ─────────────────────────────────────────────
+
+export function logGroup(title: string) {
+  if (process.env.GITHUB_ACTIONS) {
+    console.log(`::group::${title}`)
+  } else {
+    console.log(`\n▶ ${title}`)
+  }
+}
+
+export function endLogGroup() {
+  if (process.env.GITHUB_ACTIONS) {
+    console.log('::endgroup::')
+  }
+}
+
+// ── Existing Utils ───────────────────────────────────────────────────
 export interface CommandResult {
   ok: boolean
   exitCode: number | null
@@ -130,13 +147,37 @@ export function isTestFilePath(filePath: string) {
   )
 }
 
+/**
+ * Returns true if the file is worth analysing for test generation.
+ * Only source files under `src/` (`.vue`, `.ts`, `.tsx`) and test files are
+ * considered relevant.  Config files, markdown, lock files, etc. are skipped
+ * to avoid wasting LLM context.
+ */
+export function isAnalysableSourceFile(filePath: string) {
+  const normalized = toPosixPath(filePath)
+
+  // Always keep test files — they serve as style examples
+  if (isTestFilePath(normalized)) {
+    return true
+  }
+
+  // Only source files under src/
+  if (!normalized.startsWith('src/')) {
+    return false
+  }
+
+  // Only .vue, .ts, .tsx extensions
+  return /\.(vue|ts|tsx)$/.test(normalized)
+}
+
+/**
+ * Check if a file path is a valid writable test path.
+ * Only `src/__tests__/` is allowed — this enforces the project convention
+ * of a single, centralised test directory that mirrors the source structure.
+ */
 export function isWritableTestPath(filePath: string) {
   const normalized = toPosixPath(filePath).replace(/^\.\//, '')
-  return (
-    normalized.startsWith('tests/') ||
-    normalized.startsWith('__tests__/') ||
-    normalized.includes('/__tests__/')
-  )
+  return normalized.startsWith('src/__tests__/')
 }
 
 export function resolveSafeWritePath(rootDir: string, filePath: string) {

@@ -24,7 +24,7 @@ export async function generateTestFiles(
   })
 
   if (llmGeneration?.files?.length) {
-    const validated = normalizeGeneratedFiles(llmGeneration.files)
+    const validated = await filterExistingTests(normalizeGeneratedFiles(llmGeneration.files))
     if (validated.length) {
       return {
         files: validated,
@@ -33,10 +33,10 @@ export async function generateTestFiles(
     }
   }
 
-  return {
-    files: createHeuristicFiles(context, plan),
-    source: 'heuristic',
-  }
+  // LLM failed or returned nothing — do NOT fallback to heuristic.
+  // Heuristic tests (expect(true).toBe(true)) have no value and pollute the codebase.
+  console.log('[ai-testgent] LLM returned no usable test files. Skipping generation.')
+  return { files: [], source: 'heuristic' }
 }
 
 function normalizeGeneratedFiles(files: Array<Partial<GeneratedFile>>) {
@@ -51,66 +51,16 @@ function normalizeGeneratedFiles(files: Array<Partial<GeneratedFile>>) {
   return uniqBy(normalized, (file) => file.path)
 }
 
-function createHeuristicFiles(context: ToolContext, plan: TestPlan) {
-  const grouped = new Map<string, string[]>()
-
-  for (const [index, testCase] of plan.testCases.entries()) {
-    const sourcePath = testCase.target.split('::')[0] || ''
-    const filePath = deriveTestFilePath(sourcePath, index)
-    const caseBody = [
-      `  it('${escapeSingleQuotes(testCase.title)}', () => {`,
-      '    expect(true).toBe(true)',
-      '  })',
-    ].join('\n')
-
-    const existing = grouped.get(filePath) ?? []
-    existing.push(caseBody)
-    grouped.set(filePath, existing)
+/** Check if a test file already exists on disk — if so, skip to avoid overwriting. */
+async function filterExistingTests(files: GeneratedFile[]): Promise<GeneratedFile[]> {
+  const result: GeneratedFile[] = []
+  for (const file of files) {
+    try {
+      await fs.access(path.resolve(process.cwd(), file.path))
+      console.log(`[ai-testgent] Skipping ${file.path} — test file already exists.`)
+    } catch {
+      result.push(file)
+    }
   }
-
-  const importLine =
-    context.testFramework === 'vitest' || context.testFramework === 'unknown'
-      ? "import { describe, it, expect } from 'vitest'\n\n"
-      : ''
-
-  const generated: GeneratedFile[] = []
-
-  for (const [filePath, testCaseBlocks] of grouped) {
-    const suiteName = path.posix.basename(filePath)
-    const content = [
-      importLine,
-      `describe('${escapeSingleQuotes(suiteName)} (ai-testgent)', () => {`,
-      ...testCaseBlocks,
-      '})',
-      '',
-    ].join('\n')
-
-    generated.push({
-      path: filePath,
-      content,
-    })
-  }
-
-  return generated
-}
-
-function deriveTestFilePath(sourcePathInput: string, index: number) {
-  const sourcePath = toPosixPath(sourcePathInput).replace(/^\.\//, '')
-
-  if (sourcePath && sourcePath.startsWith('src/')) {
-    const dir = path.posix.dirname(sourcePath)
-    const ext = path.posix.extname(sourcePath)
-    const baseName = path.posix.basename(sourcePath, ext)
-    return `${dir}/__tests__/${baseName}.ai-generated.test.ts`
-  }
-
-  if (sourcePath && sourcePath.startsWith('tests/')) {
-    return sourcePath
-  }
-
-  return `tests/ai-generated-${String(index + 1).padStart(2, '0')}.test.ts`
-}
-
-function escapeSingleQuotes(value: string) {
-  return value.replaceAll('\\', '\\\\').replaceAll("'", "\\'")
+  return result
 }

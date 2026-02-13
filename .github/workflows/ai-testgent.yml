@@ -13,11 +13,27 @@ jobs:
   ai-testgent:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
+    # ── Skip runs triggered by the bot's own commit ──
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.user.login != 'github-actions[bot]'
+
     steps:
+      - name: Skip bot commits
+        if: github.event_name == 'pull_request'
+        run: |
+          LAST_AUTHOR=$(git log -1 --pretty=format:'%an' 2>/dev/null || echo '')
+          if [ "$LAST_AUTHOR" = "github-actions[bot]" ]; then
+            echo "Skipping: last commit was from bot."
+            exit 0
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -32,14 +48,48 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
-          LLM_MODEL: ${{ vars.LLM_MODEL }}
+          LLM_BASE_URL: ${{ vars.LLM_BASE_URL || 'https://visit-cycle-url-electro.trycloudflare.com/v1' }}
+          LLM_MODEL: ${{ vars.LLM_MODEL || 'gemini-3-pro-high' }}
+          LLM_TIMEOUT_MS: ${{ vars.LLM_TIMEOUT_MS || '180000' }}
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            yarn ai-testgent --pr "${{ github.event.pull_request.number }}"
+            yarn ai-testgent --pr "${{ github.event.pull_request.number }}" --max-fixes 3
           else
-            yarn ai-testgent --base origin/main --no-comment
+            yarn ai-testgent --base origin/main --no-comment --max-fixes 3
           fi
+
+      - name: Commit generated tests
+        if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Only add files under src/__tests__/ (project convention)
+          mapfile -t changed_files < <(
+            {
+              git diff --name-only
+              git diff --name-only --cached
+              git ls-files --others --exclude-standard
+            } | sort -u | grep '^src/__tests__/'
+          )
+
+          if [ ${#changed_files[@]} -eq 0 ]; then
+            echo "No generated test changes to commit."
+            exit 0
+          fi
+
+          for file in "${changed_files[@]}"; do
+            git add -A -- "$file"
+          done
+
+          if git diff --cached --quiet; then
+            echo "No generated test changes to commit."
+            exit 0
+          fi
+
+          # Skip local git hooks (husky) in CI. We already run tests as part of ai-testgent.
+          git commit --no-verify -m "chore(ai-testgent): add generated tests for PR #${{ github.event.pull_request.number }} [skip ci]"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
 
       - name: Upload AI testgent report
         if: ${{ always() }}

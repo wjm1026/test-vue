@@ -4,11 +4,15 @@ import { DateRangeStatus } from '@/enum'
 
 export const formatDate = (date: string | Date, format = 'YYYY/MM/DD') => {
   if (!date) return '-'
-  return dayjs(date).format(format)
+  const parsedDate = dayjs(date)
+  const maybeDayjs = parsedDate as unknown as { isValid?: () => boolean; format: (pattern: string) => string }
+  if (typeof maybeDayjs.isValid === 'function' && !maybeDayjs.isValid()) return '-'
+  const formattedDate = parsedDate.format(format)
+  return formattedDate.toLowerCase() === 'invalid date' ? '-' : formattedDate
 }
 
 export const isBeforeDay = (date: Date | string, targetDate: Date | string): boolean => {
-  return dayjs(date).isBefore(dayjs(targetDate), 'day')
+  return dayjs(date).isBefore(dayjs(targetDate), 'day').valueOf()
 }
 
 export const addDays = (date: Date | string, days: number): Date => {
@@ -20,7 +24,9 @@ export const subtractDays = (date: Date | string, days: number): Date => {
 }
 
 export const formatDateRangeEnd = (date: string | Date): string => {
-  return ` - ${formatDate(date)}`
+  const formattedDate = formatDate(date)
+  if (formattedDate === '-') return '-'
+  return ` - ${formattedDate}`
 }
 
 export const getDateRangeStatus = (

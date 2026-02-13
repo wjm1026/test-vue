@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 
 import { LlmClient } from './llm.js'
+import { PLAN_HEURISTIC_MAX_FILES, PLAN_MAX_TEST_CASES } from './limits.js'
 import type { TestCase, TestPlan, ToolContext } from './types.js'
 import { isTestFilePath } from './utils.js'
 
@@ -33,7 +34,7 @@ export async function createTestPlan(context: ToolContext, llm: LlmClient, promp
 }
 
 function normalizeCases(cases: Array<Partial<TestCase>>): TestCase[] {
-  return cases.slice(0, 50).map((item, index) => {
+  return cases.slice(0, PLAN_MAX_TEST_CASES).map((item, index) => {
     const priority: TestCase['priority'] = item.priority === 'P1' ? 'P1' : 'P0'
 
     return {
@@ -51,7 +52,7 @@ function normalizeCases(cases: Array<Partial<TestCase>>): TestCase[] {
 function createHeuristicCases(context: ToolContext) {
   const cases: TestCase[] = []
 
-  const candidates = context.changedFiles.filter((file) => !isTestFilePath(file.path)).slice(0, 12)
+  const candidates = context.changedFiles.filter((file) => !isTestFilePath(file.path)).slice(0, PLAN_HEURISTIC_MAX_FILES)
 
   for (const [index, changedFile] of candidates.entries()) {
     const exportedTarget = extractFirstExportedSymbol(changedFile.fullContent)

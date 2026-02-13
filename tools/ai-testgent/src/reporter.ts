@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+import { REPORT_MAX_TEST_CASES, REPORT_TAIL_OUTPUT_LINES } from './limits.js'
 import type { FinalReport, GenerationResult, TestPlan, TestRunResult, ToolContext } from './types.js'
 
 export function createFinalReport(
@@ -33,7 +34,7 @@ export function renderMarkdownReport(report: FinalReport) {
     : '- Coverage: unavailable'
 
   const caseLines = report.plan.testCases
-    .slice(0, 20)
+    .slice(0, REPORT_MAX_TEST_CASES)
     .map((testCase) => `- [${testCase.priority}] ${testCase.id} ${testCase.title} -> ${testCase.target}`)
     .join('\n')
 
@@ -59,10 +60,18 @@ export function renderMarkdownReport(report: FinalReport) {
     '### Generated Files',
     generatedFiles,
     '',
-    '### Test Output (tail)',
+    '### Test Output',
+    '<details>',
+    `<summary>Click to expand (last ${REPORT_TAIL_OUTPUT_LINES} lines, coverage table stripped)</summary>`,
+    '',
     '```text',
-    tailOutput([report.testRun.stdout, report.testRun.stderr].filter(Boolean).join('\n'), 120),
+    tailOutput(
+      stripCoverageTable([report.testRun.stdout, report.testRun.stderr].filter(Boolean).join('\n')),
+      REPORT_TAIL_OUTPUT_LINES,
+    ),
     '```',
+    '',
+    '</details>',
     '',
   ].join('\n')
 }
@@ -89,6 +98,48 @@ function formatPct(value?: number) {
   }
 
   return `${value.toFixed(2)}%`
+}
+
+/**
+ * Strip the per-file coverage table from vitest / jest output.
+ * The coverage *summary* is already shown separately in the report header,
+ * so the noisy per-file table just wastes space in the PR comment.
+ *
+ * Matches lines like:
+ *   src/foo.ts  | 100 | 80 | 100 | 90 |
+ *   ------------|-----|----|-...-|....|
+ *   File        | ... |
+ *   All files   | ... |
+ */
+function stripCoverageTable(text: string) {
+  return text
+    .split('\n')
+    .filter((line) => {
+      const trimmed = line.trim()
+
+      // Table separator lines: ---|---|---
+      if (/^[-|:\s]+$/.test(trimmed) && trimmed.includes('|') && trimmed.includes('-')) {
+        return false
+      }
+
+      // Coverage data rows: <name> | <number> | <number> | ...
+      // At least 3 pipe-separated numeric-ish columns
+      if (trimmed.includes('|')) {
+        const cells = trimmed.split('|').map((c) => c.trim())
+        const numericCells = cells.filter((c) => /^\d+(\.\d+)?$/.test(c))
+        if (numericCells.length >= 3) {
+          return false
+        }
+      }
+
+      // Header rows like "File  | % Stmts | ..."
+      if (/^\s*(File|All files)\s*\|/.test(trimmed)) {
+        return false
+      }
+
+      return true
+    })
+    .join('\n')
 }
 
 function tailOutput(text: string, maxLines: number) {
